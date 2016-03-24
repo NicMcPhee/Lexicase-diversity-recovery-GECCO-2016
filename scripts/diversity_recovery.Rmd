@@ -1,0 +1,117 @@
+---
+title: "Diversity recovery"
+author: "Nic McPhee and Tom Helmuth"
+date: "23 March 2016"
+output: html_document
+---
+
+# Setting things up
+
+Let's load up the data:
+
+```{r}
+library("ggplot2")
+
+div15run0 <- read.csv("data/RSWN/div15run0.csv")
+div15run1 <- read.csv("data/RSWN/div15run1.csv")
+div90run6 <- read.csv("data/RSWN/div90run6.csv")
+div90run10 <- read.csv("data/RSWN/div90run10.csv")
+drop25run0 <- read.csv("data/RSWN/drop25run0.csv")
+drop25run8 <- read.csv("data/RSWN/drop25run8.csv")
+
+dl_div15run0 <- read.csv("data/DoubleLetters/double_letters_div15_run0.csv")
+dl_div15run1 <- read.csv("data/DoubleLetters/double_letters_div15_run1.csv")
+dl_div90run0 <- read.csv("data/DoubleLetters/double_letters_div90_run0.csv")
+dl_div90run3 <- read.csv("data/DoubleLetters/double_letters_div90_run3.csv")
+dl_drop25run0 <- read.csv("data/DoubleLetters/double_letters_drop_25_run0.csv")
+dl_drop25run21 <- read.csv("data/DoubleLetters/double_letters_drop_25_run21.csv")
+```
+
+Now create a new `selection` column to make it easier to organize the graphs. 
+
+```{r}
+#for (d in list(div15run0, div15run1, div90run6, div90run10, drop25run0, drop25run8)) {
+#  d$selection <- sapply(strsplit(as.character(d$method), "-"), function(l) l[[3]])
+#  print(names(d))
+#}
+
+div15run0$selection <- sapply(strsplit(as.character(div15run0$method), "-"), function(l) l[[3]])
+div15run1$selection <- sapply(strsplit(as.character(div15run1$method), "-"), function(l) l[[3]])
+div90run6$selection <- sapply(strsplit(as.character(div90run6$method), "-"), function(l) l[[3]])
+div90run10$selection <- sapply(strsplit(as.character(div90run10$method), "-"), function(l) l[[3]])
+drop25run0$selection <- sapply(strsplit(as.character(drop25run0$method), "-"), function(l) l[[3]])
+drop25run8$selection <- sapply(strsplit(as.character(drop25run8$method), "-"), function(l) l[[3]])
+
+dl_div15run0$selection <- sapply(strsplit(as.character(dl_div15run0$method), "-"), function(l) l[[3]])
+dl_div15run1$selection <- sapply(strsplit(as.character(dl_div15run1$method), "-"), function(l) l[[3]])
+dl_div90run0$selection <- sapply(strsplit(as.character(dl_div90run0$method), "-"), function(l) l[[3]])
+dl_div90run3$selection <- sapply(strsplit(as.character(dl_div90run3$method), "-"), function(l) l[[3]])
+dl_drop25run0$selection <- sapply(strsplit(as.character(dl_drop25run0$method), "-"), function(l) l[[3]])
+dl_drop25run21$selection <- sapply(strsplit(as.character(dl_drop25run21$method), "-"), function(l) l[[3]])
+```
+
+# Plotting
+
+## Replace-space-with-newline
+
+These are runs starting after a dive in diversity in a lexicase selection run, presumably due to a hyperselection event.
+
+```{r, echo=FALSE}
+div15 = rbind(div15run0, div15run1)
+
+ggplot(div15, aes(x=generation, y=error_vector_diversity, color=selection)) + 
+  geom_boxplot(aes(group=interaction(generation, selection))) + 
+  labs(title = "RSWN after diversity crash", x="Generation", y="Error diversity", color="Selection")
+```
+
+Now starting with a point in a lexicase selection run where the diversity was nice and high.
+
+```{r, echo=FALSE}
+div90 = rbind(div90run6, div90run10)
+
+ggplot(div90, aes(x=generation, y=error_vector_diversity, color=selection)) + 
+  geom_boxplot(aes(group=interaction(generation, selection))) + 
+  labs(title = "RSWN starting with high diversity", x="Generation", y="Error diversity", color="Selection")
+```
+
+Lastly, starting with a point in a tournament selection run where diversity was fairly low.
+
+```{r, echo=FALSE}
+drop25 = rbind(drop25run0, drop25run8)
+
+ggplot(drop25, aes(x=generation, y=error_vector_diversity, color=selection)) + 
+  geom_boxplot(aes(group=interaction(generation, selection))) + 
+  labs(title = "RSWN starting with low diversity", x="Generation", y="Error diversity", color="Selection")
+```
+
+## Double letters
+
+These are runs starting after a dive in diversity in a lexicase selection run, presumably due to a hyperselection event.
+
+```{r, echo=FALSE}
+dl_div15 = rbind(dl_div15run0, dl_div15run1)
+
+ggplot(dl_div15, aes(x=generation, y=error_vector_diversity, color=selection)) + 
+  geom_boxplot(aes(group=interaction(generation, selection))) + 
+  labs(title = "double-letters after diversity crash", x="Generation", y="Error diversity", color="Selection")
+```
+
+Now starting with a point in a lexicase selection run where the diversity was nice and high.
+
+```{r, echo=FALSE}
+dl_div90 = rbind(dl_div90run0, dl_div90run3)
+
+ggplot(div90, aes(x=generation, y=error_vector_diversity, color=selection)) + 
+  geom_boxplot(aes(group=interaction(generation, selection))) + 
+  labs(title = "double-letters starting with high diversity", x="Generation", y="Error diversity", color="Selection")
+```
+
+Lastly, starting with a point in a tournament selection run where diversity was fairly low.
+
+```{r, echo=FALSE}
+dl_drop25 = rbind(dl_drop25run0, dl_drop25run21)
+
+ggplot(dl_drop25, aes(x=generation, y=error_vector_diversity, color=selection)) + 
+  geom_boxplot(aes(group=interaction(generation, selection))) + 
+  labs(title = "double-letters starting with low diversity", x="Generation", y="Error diversity", color="Selection")
+```
