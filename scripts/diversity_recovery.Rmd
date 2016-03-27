@@ -27,7 +27,7 @@ dl_drop25run0 <- read.csv("data/DoubleLetters/double_letters_drop_25_run0.csv")
 dl_drop25run21 <- read.csv("data/DoubleLetters/double_letters_drop_25_run21.csv")
 ```
 
-Now create a new `selection` column to make it easier to organize the graphs. 
+Now create a new `selection` column to make it easier to organize the graphs. The code below is stupid ugly and depressingly repetitious. I tried writing a loop to factor out that repetition but it didn't work (the new rows got attached to the local variable instead of the "real" data frame), so I wimped out and copy/pasted like made. Sorry.
 
 ```{r}
 #for (d in list(div15run0, div15run1, div90run6, div90run10, drop25run0, drop25run8)) {
@@ -48,6 +48,34 @@ dl_div90run0$selection <- sapply(strsplit(as.character(dl_div90run0$method), "-"
 dl_div90run3$selection <- sapply(strsplit(as.character(dl_div90run3$method), "-"), function(l) l[[3]])
 dl_drop25run0$selection <- sapply(strsplit(as.character(dl_drop25run0$method), "-"), function(l) l[[3]])
 dl_drop25run21$selection <- sapply(strsplit(as.character(dl_drop25run21$method), "-"), function(l) l[[3]])
+
+div15run0$run <- sapply(strsplit(as.character(div15run0$method), "-"), function(l) l[[2]])
+div15run1$run <- sapply(strsplit(as.character(div15run1$method), "-"), function(l) l[[2]])
+div90run6$run <- sapply(strsplit(as.character(div90run6$method), "-"), function(l) l[[2]])
+div90run10$run <- sapply(strsplit(as.character(div90run10$method), "-"), function(l) l[[2]])
+drop25run0$run <- sapply(strsplit(as.character(drop25run0$method), "-"), function(l) l[[2]])
+drop25run8$run <- sapply(strsplit(as.character(drop25run8$method), "-"), function(l) l[[2]])
+
+dl_div15run0$run <- sapply(strsplit(as.character(dl_div15run0$method), "-"), function(l) l[[2]])
+dl_div15run1$run <- sapply(strsplit(as.character(dl_div15run1$method), "-"), function(l) l[[2]])
+dl_div90run0$run <- sapply(strsplit(as.character(dl_div90run0$method), "-"), function(l) l[[2]])
+dl_div90run3$run <- sapply(strsplit(as.character(dl_div90run3$method), "-"), function(l) l[[2]])
+dl_drop25run0$run <- sapply(strsplit(as.character(dl_drop25run0$method), "-"), function(l) l[[2]])
+dl_drop25run21$run <- sapply(strsplit(as.character(dl_drop25run21$method), "-"), function(l) l[[2]])
+
+div15run0$start <- sapply(strsplit(as.character(div15run0$method), "-"), function(l) l[[1]])
+div15run1$start <- sapply(strsplit(as.character(div15run1$method), "-"), function(l) l[[1]])
+div90run6$start <- sapply(strsplit(as.character(div90run6$method), "-"), function(l) l[[1]])
+div90run10$start <- sapply(strsplit(as.character(div90run10$method), "-"), function(l) l[[1]])
+drop25run0$start <- sapply(strsplit(as.character(drop25run0$method), "-"), function(l) l[[1]])
+drop25run8$start <- sapply(strsplit(as.character(drop25run8$method), "-"), function(l) l[[1]])
+
+dl_div15run0$start <- sapply(strsplit(as.character(dl_div15run0$method), "-"), function(l) l[[1]])
+dl_div15run1$start <- sapply(strsplit(as.character(dl_div15run1$method), "-"), function(l) l[[1]])
+dl_div90run0$start <- sapply(strsplit(as.character(dl_div90run0$method), "-"), function(l) l[[1]])
+dl_div90run3$start <- sapply(strsplit(as.character(dl_div90run3$method), "-"), function(l) l[[1]])
+dl_drop25run0$start <- sapply(strsplit(as.character(dl_drop25run0$method), "-"), function(l) l[[1]])
+dl_drop25run21$start <- sapply(strsplit(as.character(dl_drop25run21$method), "-"), function(l) l[[1]])
 ```
 
 # Plotting
