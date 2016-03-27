@@ -88,66 +88,80 @@ update_geom_defaults("point", list(colour = NULL, alpha=0.05))
 
 ## Replace-space-with-newline
 
-These are runs starting after a dive in diversity in a lexicase selection run, presumably due to a hyperselection event.
+These are runs starting with a point in a tournament selection run where diversity was fairly low.
 
-```{r, echo=FALSE}
+```{r}
 div15 = rbind(div15run0, div15run1)
 
 ggplot(div15, aes(x=generation, y=error_vector_diversity, color=selection)) + 
-  geom_boxplot(aes(group=interaction(generation, selection))) + 
-  labs(title = "RSWN after diversity crash", x="Generation", y="Error diversity", color="Selection")
+  geom_boxplot(aes(group=interaction(generation, selection)), outlier.size=1) + 
+  ylim(0, 1) +
+  labs(title = "RSWN starting with low diversity", x="Generation", y="Error diversity", color="Selection") +
+  facet_grid(. ~ run)
 ```
 
 Now starting with a point in a lexicase selection run where the diversity was nice and high.
 
-```{r, echo=FALSE}
+```{r}
 div90 = rbind(div90run6, div90run10)
 
 ggplot(div90, aes(x=generation, y=error_vector_diversity, color=selection)) + 
-  geom_boxplot(aes(group=interaction(generation, selection))) + 
-  labs(title = "RSWN starting with high diversity", x="Generation", y="Error diversity", color="Selection")
+  geom_boxplot(aes(group=interaction(generation, selection)), outlier.size=1) + 
+  ylim(0, 1) +
+  labs(title = "RSWN starting with high diversity", x="Generation", y="Error diversity", color="Selection") +
+  facet_grid(. ~ run)
 ```
 
-Lastly, starting with a point in a tournament selection run where diversity was fairly low.
+Lastly, starting with a point after a dive in diversity in a lexicase selection run, presumably due to a hyperselection event.
 
-```{r, echo=FALSE}
+```{r}
 drop25 = rbind(drop25run0, drop25run8)
 
 ggplot(drop25, aes(x=generation, y=error_vector_diversity, color=selection)) + 
-  geom_boxplot(aes(group=interaction(generation, selection))) + 
-  labs(title = "RSWN starting with low diversity", x="Generation", y="Error diversity", color="Selection")
+  geom_boxplot(aes(group=interaction(generation, selection)), outlier.size=1) + 
+  ylim(0, 1) +
+  labs(title = "RSWN after diversity crash", x="Generation", y="Error diversity", color="Selection") +
+  facet_grid(. ~ run)
 ```
 
 ## Double letters
 
-These are runs starting after a dive in diversity in a lexicase selection run, presumably due to a hyperselection event.
+These are runs starting with a point in a tournament selection run where diversity was fairly low.
 
-```{r, echo=FALSE}
+```{r}
 dl_div15 = rbind(dl_div15run0, dl_div15run1)
 
 ggplot(dl_div15, aes(x=generation, y=error_vector_diversity, color=selection)) + 
-  geom_boxplot(aes(group=interaction(generation, selection))) + 
-  labs(title = "double-letters after diversity crash", x="Generation", y="Error diversity", color="Selection")
+  geom_boxplot(aes(group=interaction(generation, selection)), outlier.size=1) + 
+  ylim(0, 1) +
+  labs(title = "double-letters starting with low diversity", x="Generation", y="Error diversity", color="Selection") +
+  facet_grid(. ~ run)
 ```
 
 Now starting with a point in a lexicase selection run where the diversity was nice and high.
 
-```{r, echo=FALSE}
+```{r}
 dl_div90 = rbind(dl_div90run0, dl_div90run3)
 
 ggplot(div90, aes(x=generation, y=error_vector_diversity, color=selection)) + 
-  geom_boxplot(aes(group=interaction(generation, selection))) + 
-  labs(title = "double-letters starting with high diversity", x="Generation", y="Error diversity", color="Selection")
+  geom_boxplot(aes(group=interaction(generation, selection)), outlier.size=1) + 
+  ylim(0, 1) +
+  labs(title = "double-letters starting with high diversity", x="Generation", y="Error diversity", color="Selection") +
+  facet_grid(. ~ run)
 ```
 
-Lastly, starting with a point in a tournament selection run where diversity was fairly low.
+Lastly, starting with a point after a dive in diversity in a lexicase selection run, presumably due to a hyperselection event.
 
-```{r, echo=FALSE}
+```{r}
 dl_drop25 = rbind(dl_drop25run0, dl_drop25run21)
 
 ggplot(dl_drop25, aes(x=generation, y=error_vector_diversity, color=selection)) + 
-  geom_boxplot(aes(group=interaction(generation, selection))) + 
-  labs(title = "double-letters starting with low diversity", x="Generation", y="Error diversity", color="Selection")
+  geom_boxplot(aes(group=interaction(generation, selection)), outlier.size=1) + 
+  ylim(0, 1) +
+  labs(title = "double-letters after diversity crash", x="Generation", y="Error diversity", color="Selection") +
+  facet_grid(. ~ run)
+```
+
 ## Adding confidence intervals
 
 This uses `ggplot2`'s `geom_smooth()` to create the 95% confidence interval _on the fitted curve_ (i.e., the curve is highly likely to be between the upper and lower bounds of the ribbon). This says nothing about where the actually data points will lie, however, which is I'm guessing is what Tom really wanted in a confidence interval.
