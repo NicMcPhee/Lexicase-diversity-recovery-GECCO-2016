@@ -80,6 +80,12 @@ dl_drop25run21$start <- sapply(strsplit(as.character(dl_drop25run21$method), "-"
 
 # Plotting
 
+This little guy sets changes the default color of outlier dots from black to whatever color is being used fo rthe boxplot:
+
+```{r}
+update_geom_defaults("point", list(colour = NULL, alpha=0.05))
+```
+
 ## Replace-space-with-newline
 
 These are runs starting after a dive in diversity in a lexicase selection run, presumably due to a hyperselection event.
