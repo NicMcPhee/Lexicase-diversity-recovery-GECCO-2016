@@ -159,18 +159,5 @@ ggplot(dl_drop25, aes(x=generation, y=error_vector_diversity, color=selection)) 
   geom_boxplot(aes(group=interaction(generation, selection)), outlier.size=1) + 
   ylim(0, 1) +
   labs(title = "double-letters after diversity crash", x="Generation", y="Error diversity", color="Selection") +
-  facet_grid(. ~ run)
-```
-
-## Adding confidence intervals
-
-This uses `ggplot2`'s `geom_smooth()` to create the 95% confidence interval _on the fitted curve_ (i.e., the curve is highly likely to be between the upper and lower bounds of the ribbon). This says nothing about where the actually data points will lie, however, which is I'm guessing is what Tom really wanted in a confidence interval.
-
-```{r, warning=FALSE, message=FALSE}
-ggplot(dl_drop25, aes(x=generation, y=error_vector_diversity, color=selection)) +
-  geom_jitter(alpha=0.05) +
-  geom_smooth(span=0.1) +
   facet_grid(. ~ run) +
-  ylim(0, 1) +
-  labs(title = "double-letters run 0 after diversity crash", x="Generation", y="Error diversity", color="Selection")
 ```
