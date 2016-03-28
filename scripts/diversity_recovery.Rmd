@@ -96,6 +96,7 @@ These are runs starting with a point in a tournament selection run where diversi
 ```{r}
 div15 = rbind(div15run0, div15run1)
 
+
 ggplot(div15, aes(x=generation, y=error_vector_diversity, color=selection)) + 
   geom_boxplot(aes(group=interaction(generation, selection)), outlier.size=1) + 
   ylim(0, 1) +
@@ -103,6 +104,16 @@ ggplot(div15, aes(x=generation, y=error_vector_diversity, color=selection)) +
   facet_grid(. ~ run) +
   theme_bw() + 
   theme(legend.position = "bottom")
+
+ggplot(div15, aes(x=generation, y=error_vector_diversity, color=selection)) + 
+  geom_line(aes(group=interaction(trial, method), linetype=selection), alpha=0.15, show_guide=FALSE) + 
+  geom_boxplot(aes(group=interaction(generation, selection)), outlier.size=0) + 
+  ylim(0, 1) + 
+  labs(title = "RSWN starting with low diversity", x="Generation", y="Error diversity", color="Selection") +
+  facet_grid(. ~ run) +
+  scale_colour_manual(values = cbbPalette) +
+  theme_bw() + 
+  theme(legend.position = "bottom", legend.direction = "horizontal")
 ```
 
 Now starting with a point in a lexicase selection run where the diversity was nice and high.
@@ -117,6 +128,16 @@ ggplot(div90, aes(x=generation, y=error_vector_diversity, color=selection)) +
   facet_grid(. ~ run) +
   theme_bw() + 
   theme(legend.position = "bottom")
+
+ggplot(div90, aes(x=generation, y=error_vector_diversity, color=selection)) + 
+  geom_line(aes(group=interaction(trial, method), linetype=selection), alpha=0.15, show_guide=FALSE) + 
+  geom_boxplot(aes(group=interaction(generation, selection)), outlier.size=0) + 
+  ylim(0, 1) + 
+  labs(title = "RSWN starting with high diversity", x="Generation", y="Error diversity", color="Selection") +
+  facet_grid(. ~ run) +
+  scale_colour_manual(values = cbbPalette) +
+  theme_bw() + 
+  theme(legend.position = "bottom")
 ```
 
 Lastly, starting with a point after a dive in diversity in a lexicase selection run, presumably due to a hyperselection event.
@@ -129,6 +150,16 @@ ggplot(drop25, aes(x=generation, y=error_vector_diversity, color=selection)) +
   ylim(0, 1) +
   labs(title = "RSWN after diversity crash", x="Generation", y="Error diversity", color="Selection") +
   facet_grid(. ~ run) +
+  theme_bw() + 
+  theme(legend.position = "bottom")
+
+ggplot(drop25, aes(x=generation, y=error_vector_diversity, color=selection)) + 
+  geom_line(aes(group=interaction(trial, method), linetype=selection), alpha=0.15, show_guide=FALSE) + 
+  geom_boxplot(aes(group=interaction(generation, selection)), outlier.size=0) + 
+  ylim(0, 1) + 
+  labs(title = "RSWN after diversity crash", x="Generation", y="Error diversity", color="Selection") +
+  facet_grid(. ~ run) +
+  scale_colour_manual(values = cbbPalette) +
   theme_bw() + 
   theme(legend.position = "bottom")
 ```
@@ -147,6 +178,16 @@ ggplot(dl_div15, aes(x=generation, y=error_vector_diversity, color=selection)) +
   facet_grid(. ~ run) +
   theme_bw() + 
   theme(legend.position = "bottom")
+
+ggplot(dl_div15, aes(x=generation, y=error_vector_diversity, color=selection)) + 
+  geom_line(aes(group=interaction(trial, method), linetype=selection), alpha=0.15, show_guide=FALSE) + 
+  geom_boxplot(aes(group=interaction(generation, selection)), outlier.size=0) + 
+  ylim(0, 1) + 
+  labs(title = "double-letters starting with low diversity", x="Generation", y="Error diversity", color="Selection") +
+  facet_grid(. ~ run) +
+  scale_colour_manual(values = cbbPalette) +
+  theme_bw() + 
+  theme(legend.position = "bottom")
 ```
 
 Now starting with a point in a lexicase selection run where the diversity was nice and high.
@@ -161,6 +202,16 @@ ggplot(dl_div90, aes(x=generation, y=error_vector_diversity, color=selection)) +
   facet_grid(. ~ run) +
   theme_bw() + 
   theme(legend.position = "bottom")
+
+ggplot(dl_div90, aes(x=generation, y=error_vector_diversity, color=selection)) + 
+  geom_line(aes(group=interaction(trial, method), linetype=selection), alpha=0.15, show_guide=FALSE) + 
+  geom_boxplot(aes(group=interaction(generation, selection)), outlier.size=0) + 
+  ylim(0, 1) + 
+  labs(title = "double-letters starting with high diversity", x="Generation", y="Error diversity", color="Selection") +
+  facet_grid(. ~ run) +
+  scale_colour_manual(values = cbbPalette) +
+  theme_bw() + 
+  theme(legend.position = "bottom")
 ```
 
 Lastly, starting with a point after a dive in diversity in a lexicase selection run, presumably due to a hyperselection event.
@@ -173,6 +224,16 @@ ggplot(dl_drop25, aes(x=generation, y=error_vector_diversity, color=selection)) 
   ylim(0, 1) +
   labs(title = "double-letters after diversity crash", x="Generation", y="Error diversity", color="Selection") +
   facet_grid(. ~ run) +
+  theme_bw() + 
+  theme(legend.position = "bottom")
+
+ggplot(dl_drop25, aes(x=generation, y=error_vector_diversity, color=selection)) + 
+  geom_line(aes(group=interaction(trial, method), linetype=selection), alpha=0.15, show_guide=FALSE) + 
+  geom_boxplot(aes(group=interaction(generation, selection)), outlier.size=0) + 
+  ylim(0, 1) + 
+  labs(title = "double-letters after diversity crash", x="Generation", y="Error diversity", color="Selection") +
+  facet_grid(. ~ run) +
+  scale_colour_manual(values = cbbPalette) +
   theme_bw() + 
   theme(legend.position = "bottom")
 ```
