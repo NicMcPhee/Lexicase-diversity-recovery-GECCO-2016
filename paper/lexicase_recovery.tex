@@ -156,7 +156,7 @@ Previous work has shown that using lexicase selection results in higher populati
 
 Here we examine the effcts of these parent selection methods on population diveristy starting from specific population conditions besides a random initial population. In particular, we want to see how each method changes diversity in populations that occur naturally during an evolutionary run.
 
-In order to produce the populations on which to experiment, we started GP runs and let them continue until they met certain conditions; we then stored those populations and later conducted multiple trials with different random number seeds starting with those stored populations. We used three different stopping conditions in order to generate naturally occuring populations with interesting properties:
+In order to produce the populations on which to experiment, we started GP runs and let them continue until they met certain stopping conditions; we then stored those populations and later conducted multiple trials with different random number seeds starting with those stored populations. We used three different stopping conditions in order to generate naturally occuring populations with interesting properties:
 \begin{enumerate}
 \item
 In a run using lexicase selection, we stopped if the population error diversity was greater than 0.9. This results in very diverse populations, allowing us to observe whether evolution is able to maintain such high diversity in the following generations.
@@ -172,8 +172,14 @@ In this condition, we stopped a run using lexicase selection when the error dive
 \end{enumerate}
 In all three conditions, we only considered populations occuring after generation 10 in order to give evolution a chance to settle down after the extreme shifts that can happen at the beginning of a run.
 
-- We ran each for 20 generations more
-- 2 problems
+In each trial, we continued running GP on a stored population for 20 generations and recorded the population error diversity. For each parent selection setting (lexicase and tournament selections), we conducted 100 trials with different random number seeds from each stored population.
+
+We conducted these tests on two problems taken from a recent program synthesis benchmark suite \cite{Helmuth:2015:GECCO}. The first problem, Replace Space With Newline (RSWN), searches for a program that takes as input a string and both prints the string after replacing all of the spaces in the input with newline characters and functionally returns the number of non-whitespace characters in the string. Previous examinations of error vector diversity on the RSWN problem indicate that lexicase selection maintains significantly higher diversity than tournament selection, which across 100 runs never had a median diversity higher than 0.25 \cite{Helmuth:2015:GPTP}.
+
+The second problem, Double Letters, asks for a program that takes a string as input and prints the string after doubling every alphabetic character and tripling every exclamation point. All other characters should be printed once. As with the RSWN problem, lexicase selection consistently achieves high diversity. On the other hand, runs using tournament selection show slow but steady increases in diversity, though not approaching that of lexicase selection runs \cite{Helmuth:2015:GPTP}.
+
+
+GP parameters, etc.
 
 
 \section{Results}
