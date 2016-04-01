@@ -47,6 +47,11 @@
 
 \documentclass{sig-alternate-05-2015}
 
+%\usepackage{tabu}
+%\usepackage{multirow}
+
+\usepackage{booktabs}
+
 
 \begin{document}
 
@@ -152,7 +157,7 @@ Lexicase selection \cite{Spector:2012:GECCOcompANEW} is nifty, eh?
 
 \section{Experimental Design}
 
-Previous work has shown that using lexicase selection results in higher population error diversity than tournament selection across a variety of problems \cite{Helmuth:2015:GPTP, Helmuth:2015:ieeeTEC}. These examples examined the diversity of entire GP runs, each starting with a different initial population and random number seed.
+Previous work has shown that using lexicase selection results in higher population error diversity than tournament selection across a variety of problems \cite{Helmuth:2015:GPTP, Helmuth:2015:ieeeTEC}. These papers examined the diversity of entire GP runs, each starting with a different initial population and random number seed.
 
 Here we examine the effcts of these parent selection methods on population diveristy starting from specific population conditions besides a random initial population. In particular, we want to see how each method changes diversity in populations that occur naturally during an evolutionary run.
 
@@ -179,7 +184,40 @@ We conducted these tests on two problems taken from a recent program synthesis b
 The second problem, Double Letters, asks for a program that takes a string as input and prints the string after doubling every alphabetic character and tripling every exclamation point. All other characters should be printed once. As with the RSWN problem, lexicase selection consistently achieves high diversity. On the other hand, runs using tournament selection show slow but steady increases in diversity, though not approaching that of lexicase selection runs \cite{Helmuth:2015:GPTP}.
 
 
-GP parameters, etc.
+
+\begin{table}[t]
+\centering
+\caption{PushGP parameters}
+\label{table:parameters}
+%\rowcolors{3}{Gray}{white}
+\begin{tabular}{l r}
+\toprule
+\textbf{Parameter} & \textbf{Value} \tabularnewline
+\midrule
+runs per problem/parent selection combination & 100 \tabularnewline
+population size & 1000 \tabularnewline
+maximum generations & 300 \tabularnewline
+maximum genome size & 1600 \tabularnewline
+maximum initial genome size & 400 \tabularnewline
+%alternation rate & 0.01 \tabularnewline
+%alignment deviation & 10 \tabularnewline
+%uniform mutation rate & 0.01 \tabularnewline
+%uniform close mutation rate & 0.1 \tabularnewline
+\midrule
+\textbf{Genetic Operator} & \textbf{Prob} \tabularnewline
+\midrule
+alternation & 0.2 \tabularnewline
+uniform mutation & 0.2 \tabularnewline
+uniform close mutation & 0.1 \tabularnewline
+alternation followed by uniform mutation & 0.5 \tabularnewline
+\bottomrule
+\end{tabular}
+\end{table}
+
+For our experiments we used PushGP \cite{spector:2002:GPEM, 1068292}, a stack-based genetic programming system.\footnote{Lexicase selection has also been shown to be effective in tree-based genetic programming \cite{Helmuth:2015:ieeeTEC, Krawiec:2015:GECCO:smgpWorkshop}.} PushGP supports a variety of control structures and multiple data types, making it a good choice for program synthesis tasks such as the problems we explore here.
+Except for parent selection, we used the exact same PushGP parameters in both the initial runs used to store interesting populations as well as the continuations of the stored populations. We give the most relevant parameters in Table~\ref{table:parameters}. The parameters not listed here exactly follow those used in the experiments in  \cite{Helmuth:2015:dissertation}.
+
+These runs use the most recent version of PushGP, in which individuals are stored as linear genomes that we translate into hierarchical Push programs prior to execution \cite{Helmuth:2015:dissertation}. These linear genomes admit a range of uniform genetic operators; we use four, listed in Table~\ref{table:parameters} with their probabilities. Alternation is a linear crossover operator modeled after the sexual portion of ULTRA \cite{Spector:2013:GPTP}. Uniform mutation may replace each instruction with 1\% probability. Uniform close mutation may add or remove parentheses from the program. Finally, the last operator runs alternation on two parents and then uniform mutation on that child to produce a new child.
 
 
 \section{Results}
