@@ -155,6 +155,8 @@ I bet we start here!
 
 Lexicase selection \cite{Spector:2012:GECCOcompANEW} is nifty, eh?
 
+Hyperselection provided initial motivation~\cite{Helmuth:2016:GECCO}, but later we became interested more generally in what lexicase and tournament do differently starting with the same population.
+
 \section{Experimental Design}
 
 Previous work has shown that using lexicase selection results in higher population error diversity than tournament selection across a variety of problems \cite{Helmuth:2015:GPTP, Helmuth:2015:ieeeTEC}. These papers examined the diversity of entire GP runs, each starting with a different initial population and random number seed.
@@ -170,18 +172,18 @@ In a run using lexicase selection, we stopped if the population error diversity 
 In a run using tournament selection, we stopped if the population error diversity was less than 0.15. These populations allow us to see if methods promote diversification starting from such undiverse populations. They also allow us to see if methods perform differently on a population produced by tournament selection versus one produced by lexicase selection.
 
 \item
-As described above, we were initially motivated here by observations of runs using lexicase selection undergoing major drops in diversity following hyperselection events, where one or a few individuals in the population received the majority of the parent selections in a generation. We had anecdotally noticed rapid diversity recovery following these events, but not examined them systematically.
+As described above, we were initially motivated here by observations of runs using lexicase selection that underwent major drops in diversity following hyperselection events, where one or a few individuals in the population received the majority of the parent selections in a generation. We had anecdotally noticed rapid diversity recovery following these events, but not examined them systematically~\cite{Helmuth:2016:GECCO}.
 
-In this condition, we stopped a run using lexicase selection when the error diversity reached a level at least 0.25 less than it had been at some point in the previous 10 generations. This allowed us to detect populations that had recently undergone large drops in diversity. We do not know for sure whether those drops are related to hyperselection events, but we expect that they are.
+In this condition, we stopped a run using lexicase selection when the error diversity reached a level at least 0.25 less than it had been at some point in the previous 10 generations. This allowed us to detect populations that had recently undergone large drops in diversity. We do not definitively know whether those drops are related to hyperselection events, but we expect that they are.
 
 \end{enumerate}
-In all three conditions, we only considered populations occuring after generation 10 in order to give evolution a chance to settle down after the extreme shifts that can happen at the beginning of a run.
+In all three conditions, we only considered populations occuring after the first 10 generations in order to give evolution a chance to settle down after the extreme shifts that can happen at the beginning of a run.
 
 In each trial, we continued running GP on a stored population for 20 generations and recorded the population error diversity. For each parent selection setting (lexicase and tournament selections), we conducted 100 trials with different random number seeds from each stored population.
 
-We conducted these tests on two problems taken from a recent program synthesis benchmark suite \cite{Helmuth:2015:GECCO}. The first problem, Replace Space With Newline (RSWN), searches for a program that takes as input a string and both prints the string after replacing all of the spaces in the input with newline characters and functionally returns the number of non-whitespace characters in the string. Previous examinations of error vector diversity on the RSWN problem indicate that lexicase selection maintains significantly higher diversity than tournament selection, which across 100 runs never had a median diversity higher than 0.25 \cite{Helmuth:2015:GPTP}.
+We conducted these tests on two problems taken from a recent program synthesis benchmark suite \cite{Helmuth:2015:GECCO}. The first problem, Replace Space With Newline (RSWN), searches for a program that takes as input a string and both prints the string after replacing all of the spaces in the input with newline characters and functionally returns the number of non-whitespace characters in the string. Previous examinations of error vector diversity on the RSWN problem indicate that lexicase selection maintains significantly higher diversity than tournament selection, which across 100 runs never achieved a median diversity higher than 0.25 \cite{Helmuth:2015:GPTP}.
 
-The second problem, Double Letters, asks for a program that takes a string as input and prints the string after doubling every alphabetic character and tripling every exclamation point. All other characters should be printed once. As with the RSWN problem, lexicase selection consistently achieves high diversity. On the other hand, runs using tournament selection show slow but steady increases in diversity, though not approaching that of lexicase selection runs \cite{Helmuth:2015:GPTP}.
+The second problem, Double Letters, asks for a program that takes a string as input and prints the string after doubling every alphabetic character and tripling every exclamation point. All other characters should be printed once. As with the RSWN problem, lexicase selection consistently achieves high diversity on this problem. Differently than RSWN, runs using tournament selection show slow but steady increases in diversity, though not approaching that of lexicase selection runs \cite{Helmuth:2015:GPTP}.
 
 
 
