@@ -157,11 +157,15 @@ Lexicase selection \cite{Spector:2012:GECCOcompANEW} is nifty, eh?
 
 Hyperselection provided initial motivation~\cite{Helmuth:2016:GECCO}, but later we became interested more generally in what lexicase and tournament do differently starting with the same population.
 
+[TMH: I'm not sure if we want to talk about error diversity in the Intro or somewhere else. But, the following paragraph could be moved to be the first paragraph of Experimental Design if we don't need to talk about diversity earlier]
+
+In this paper we concentrate on diversity measures related to the outputs of the programs. One such diversity measure, \textit{behavioral diversity}, has been shown to have correlation with problem-solving performance \cite{Jackson:2010:PPSN}. In behavioral diversity, the output of each program is recorded on each training case input and stored as a \textit{behavior vector}. Behavioral diversity is then the percentage of distinct behavior vectors in the population. \textit{Error diversity}, a slight variation of behavioral diversity, considers the percentage of distinct error vectors in the population where each error vector is computed by applying the error function to each output in the behavior vector.
+
 \section{Experimental Design}
 
 Previous work has shown that using lexicase selection results in higher population error diversity than tournament selection across a variety of problems \cite{Helmuth:2015:GPTP, Helmuth:2015:ieeeTEC}. These papers examined the diversity of entire GP runs, each starting with a different initial population and random number seed.
 
-Here we examine the effcts of these parent selection methods on population diveristy starting from specific population conditions besides a random initial population. In particular, we want to see how each method changes diversity in populations that occur naturally during an evolutionary run.
+Here we examine the effcts of these parent selection methods on population error diveristy starting from specific population conditions besides a random initial population. In particular, we want to see how each method changes diversity in populations that occur naturally during an evolutionary run.
 
 In order to produce the populations on which to experiment, we started GP runs and let them continue until they met certain stopping conditions; we then stored those populations and later conducted multiple trials with different random number seeds starting with those stored populations. We used three different stopping conditions in order to generate naturally occuring populations with interesting properties:
 \begin{enumerate}
@@ -185,8 +189,6 @@ We conducted these tests on two problems taken from a recent program synthesis b
 
 The second problem, Double Letters, asks for a program that takes a string as input and prints the string after doubling every alphabetic character and tripling every exclamation point. All other characters should be printed once. As with the RSWN problem, lexicase selection consistently achieves high diversity on this problem. Differently than RSWN, runs using tournament selection show slow but steady increases in diversity, though not approaching that of lexicase selection runs \cite{Helmuth:2015:GPTP}.
 
-
-
 \begin{table}[t]
 \centering
 \caption{PushGP parameters}
@@ -198,7 +200,6 @@ The second problem, Double Letters, asks for a program that takes a string as in
 \midrule
 runs per problem/parent selection combination & 100 \tabularnewline
 population size & 1000 \tabularnewline
-maximum generations & 300 \tabularnewline
 maximum genome size & 1600 \tabularnewline
 maximum initial genome size & 400 \tabularnewline
 %alternation rate & 0.01 \tabularnewline
@@ -225,10 +226,18 @@ These runs use the most recent version of PushGP, in which individuals are store
 \section{Results}
 \label{sec:results}
 
-SOOOO MANY GRAPHS!
+Using the techniques presented in the previous section we obtained populations on which to perform continuation experiments. For each combination of the 2 problems and 3 stopping conditions we stored populations from 2 runs, for a total of 12 populations. In the following subsections we group the results based on the stopping conditions, since they produce the most similar populations within a single stopping condition.
+
+Starting with each stored population we conducted 100 GP runs with lexicase selection and 100 with tournament selection. We let each run go for 20 generations, and plot the population error diversity across the runs. In particular, each figure has a standard box-and-whisker plot for each generation, with the box showing the median and quartiles. The whiskers stretch to the maximum and minimum values, ignoring outliers. In each figure we also plot the error diversity of each individual run at each generation, giving another way of visualizing the spread of diversities across runs and making it easier to trace outliers.
+
+Note that in a few settings, one or two runs found solutions to the problem before the end of 20 generations. In these cases, we terminate the runs, and they do not contribute data past their termination generation. We do not believe this has a large effect on the plots since no plot had more than two of these early-terminating runs.
+
+
 
 \subsection{Starting with high diversity}
 \label{sec:highDiversityResults}
+
+In this subsection we present sets of runs starting with populations that occured in runs using lexicase selection and achieved error diversity greater than 0.9. 
 
 \begin{figure*}
 	\includegraphics{../figures/RSWN_high_diversity}
