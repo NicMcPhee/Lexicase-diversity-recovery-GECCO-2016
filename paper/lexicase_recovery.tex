@@ -226,34 +226,41 @@ These runs use the most recent version of PushGP, in which individuals are store
 \section{Results}
 \label{sec:results}
 
-Using the techniques presented in the previous section we obtained populations on which to perform continuation experiments. For each combination of the 2 problems and 3 stopping conditions we stored populations from 2 runs, for a total of 12 populations. In the following subsections we group the results based on the stopping conditions, since they produce the most similar populations within a single stopping condition.
+Using the techniques presented in the previous section we obtained populations on which to perform continuation experiments. For each combination of the 2 problems and 3 stopping conditions we stored populations from 2 runs, for a total of 12 populations. In the following subsections we group the results based on the stopping conditions, since they produce the most similar populations.
 
-Starting with each stored population we conducted 100 GP runs with lexicase selection and 100 with tournament selection. We let each run go for 20 generations, and plot the population error diversity across the runs. In particular, each figure has a standard box-and-whisker plot for each generation, with the box showing the median and quartiles. The whiskers stretch to the maximum and minimum values, ignoring outliers. In each figure we also plot the error diversity of each individual run at each generation, giving another way of visualizing the spread of diversities across runs and making it easier to trace outliers.
+Starting with each stored population we conducted 100 ``continuation'' GP runs with lexicase selection and 100 with tournament selection. We let each continuation go for 20 generations, and plot the population error diversity across the runs. In particular, each figure has a standard box-and-whisker plot for each generation, with the box showing the median and quartiles. The whiskers stretch to the maximum and minimum values, ignoring outliers. In each figure we also plot the error diversity of each individual run at each generation, giving another way of visualizing the spread of diversities across runs and making it easier to trace runs with outliers.
 
-Note that in a few settings, one or two runs found solutions to the problem before the end of 20 generations. In these cases, we terminate the runs, and they do not contribute data past their termination generation. We do not believe this has a large effect on the plots since no plot had more than two of these early-terminating runs.
+Note that in a few settings, one or two runs out of 100 found solutions to the problem before the end of 20 generations. In these cases, we terminate the runs, and they do not contribute data past their termination generation. We do not believe these solutions have a large effect on the plots since no plot had more than two of these early-terminating runs.
 
 
 
 \subsection{Starting with high diversity}
 \label{sec:highDiversityResults}
 
-In this subsection we use stored populations that occured in runs using lexicase selection and achieved error diversity greater than 0.9. As such, the initial populations of the runs have very high diversity, with most individuals producing distinct error vectors.
+In this subsection we continue runs using stored populations evolved using lexicase selection that achieved error diversity greater than 0.9. As such, the initial populations of the runs have very high diversity, with most individuals producing distinct error vectors.
 
 \begin{figure*}
 	\includegraphics{../figures/RSWN_high_diversity}
 	\vspace{-1 cm}
-	\caption{Error diversity over 100 ``continuations'' of the RSWN problem with both lexicase and tournament selections, starting from a population with high diversity naturally occuring in a run using lexicase selection.}
+	\caption{Error diversity over 100 continuations of the RSWN problem with both lexicase and tournament selections, starting from a population with high diversity naturally occuring in a run using lexicase selection.}
 	\label{fig:RSWNhighDiversity}
 \end{figure*}
 
 \begin{figure*}
 	\includegraphics{../figures/DL_high_diversity}
 	\vspace{-1 cm}
-	\caption{Error diversity over 100 ``continuations'' of the double-letters problem with both lexicase and tournament selections, starting from a population with high diversity naturally occuring in a run using lexicase selection.}
+	\caption{Error diversity over 100 continuations of the double-letters problem with both lexicase and tournament selections, starting from a population with high diversity naturally occuring in a run using lexicase selection.}
 	\label{fig:DLhighDiversity}
 \end{figure*}
 
-Figure~\ref{fig:RSWNhighDiversity} plots continued runs started from two populations (C and D) stored from GP evolving on the RSWN problem. 
+Figure~\ref{fig:RSWNhighDiversity} plots the continued runs started from two populations (C and D) stored from GP evolving on the RSWN problem. Lexicase selection consistently maintains high levels of diversity starting from both populations, with little variance. On the other hand, both plots show runs using tournament selection quickly losing significant diversity within the first 5 to 10 generations of the continuation, dropping from over 90\% distinct error vectors down to around 50\% distinct error vectors. Interestingly, the tournament selection runs on Population C show large differences in diversity the last 10 generations, with some becoming even less diverse while others recovering much of the lost diversity. On the other hand, the tournament selection runs on Population D maintain much more consistent diversity, with most runs having between 40\% and 60\% diversity in the remaining generations. It is unclear to us why these two populations result in such different diversity plots for tournament selection, but we assume it has to do with the composition of the stored population.
+
+Figure 2, which plots the diversities of continuations of two populations (I and J) on the Double Letters problem, shows similar trends in both lexicase selection and tournament selection. Note that tournament selection maintains higher diversity on this problem than on the RSWN problem, though not as high as lexicase selection. This trend mirrors what has been previously seen on full GP runs \cite{Helmuth:2015:GPTP}.
+
+\textit{[should the next two paragraphs be in Discussion?]}
+The continuations starting from high-diversity populations clearly show that lexicase selection can maintain a high population diversity while tournament selection cannot reliably do so.
+
+One interesting observation in these plots is the occasional steep drop in diversity in a small number of runs using lexicase selection, which can be seen especially clearly in populations D and I. Based on similar runs we have encountered previously, we would guess that these runs underwent hyperselection events in which one or a small number of individuals were selected to make most of the children in a single generation. Hyperselection events can, understandably, lead to diversity crashes since most of the individuals in the population are closely related. Interestingly, previous work has shown that such events are neither a driving force or a hinderance in runs using lexicase selection \cite{Helmuth:2016:GECCO}.
 
 
 \subsection{Starting with low diversity}
@@ -262,14 +269,14 @@ Figure~\ref{fig:RSWNhighDiversity} plots continued runs started from two populat
 \begin{figure*}
 	\includegraphics{../figures/RSWN_low_diversity}
 	\vspace{-1 cm}
-	\caption{Error diversity over 100 ``continuations'' of the RSWN problem with both lexicase and tournament selections, starting from a population with low diversity  naturally occuring in a run using tournament selection.}
+	\caption{Error diversity over 100 continuations of the RSWN problem with both lexicase and tournament selections, starting from a population with low diversity  naturally occuring in a run using tournament selection.}
 	\label{fig:RSWNlowDiversity}
 \end{figure*}
 
 \begin{figure*}
 	\includegraphics{../figures/DL_low_diversity}
 	\vspace{-1 cm}
-	\caption{Error diversity over 100 ``continuations'' of the double-letters problem with both lexicase and tournament selections, starting from a population with low diversity naturally occuring in a run using tournament selection.}
+	\caption{Error diversity over 100 continuations of the double-letters problem with both lexicase and tournament selections, starting from a population with low diversity naturally occuring in a run using tournament selection.}
 	\label{fig:DLlowDiversity}
 \end{figure*}
 
@@ -279,14 +286,14 @@ Figure~\ref{fig:RSWNhighDiversity} plots continued runs started from two populat
 \begin{figure*}
 	\includegraphics{../figures/RSWN_diversity_crash}
 	\vspace{-1 cm}
-	\caption{Error diversity over 100 ``continuations'' of the RSWN problem with both lexicase and tournament selections, starting from a population that had lost diversity in a diversity crash in a lexicase selection run.}
+	\caption{Error diversity over 100 continuations of the RSWN problem with both lexicase and tournament selections, starting from a population that had lost diversity in a diversity crash in a lexicase selection run.}
 	\label{fig:RSWNdiversityCrash}
 \end{figure*}
 
 \begin{figure*}
 	\includegraphics{../figures/DL_diversity_crash}
 	\vspace{-1 cm}
-	\caption{Error diversity over 100 ``continuations'' of the double-letters problem with both lexicase and tournament selections, starting from a population that had lost diversity in a diversity crash in a lexicase selection run.}
+	\caption{Error diversity over 100 continuations of the double-letters problem with both lexicase and tournament selections, starting from a population that had lost diversity in a diversity crash in a lexicase selection run.}
 	\label{fig:DLdiversityCrash}
 \end{figure*}
 
@@ -294,6 +301,12 @@ Figure~\ref{fig:RSWNhighDiversity} plots continued runs started from two populat
 \section{Discussion}
 
 Why does lexicase do so much better at diversification??? Does it have to do with specialists? Probably! Does it have to do with concentrating on individual test cases or combinations thereof? Probabily!
+
+Nic:
+
+    Some of the individual drops in lexicase diversity are likely due to hyperselection events. Some of those then recovered, but it's not clear that all did; not sure what we say about that part.
+
+    The details clearly depend on the problem and the run (i.e., the starting point). Not surprising, but definitely visible in the data.
 
 
 
