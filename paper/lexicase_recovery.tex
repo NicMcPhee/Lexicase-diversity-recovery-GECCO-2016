@@ -159,7 +159,7 @@ Hyperselection provided initial motivation~\cite{Helmuth:2016:GECCO}, but later 
 
 [TMH: I'm not sure if we want to talk about error diversity in the Intro or somewhere else. But, the following paragraph could be moved to be the first paragraph of Experimental Design if we don't need to talk about diversity earlier]
 
-In this paper we concentrate on diversity measures related to the outputs of the programs. One such diversity measure, \textit{behavioral diversity}, has been shown to have correlation with problem-solving performance \cite{Jackson:2010:PPSN}. In behavioral diversity, the output of each program is recorded on each training case input and stored as a \textit{behavior vector}. Behavioral diversity is then the percentage of distinct behavior vectors in the population. \textit{Error diversity}, a slight variation of behavioral diversity, considers the percentage of distinct error vectors in the population where each error vector is computed by applying the error function to each output in the behavior vector.
+In this paper we concentrate on diversity measures related to the outputs of the programs. One such diversity measure, \textit{behavioral diversity}, has been shown to have correlation with problem-solving performance \cite{Jackson:2010:PPSN}. In behavioral diversity, the output of each program is recorded on each training case input and stored as a \textit{behavior vector}. Behavioral diversity is then the percentage of distinct behavior vectors in the population. \textit{Error diversity}, a slight variation of behavioral diversity, considers the percentage of distinct error vectors in the population where each error vector is computed by applying the error function to each output in the behavior vector. We believe error diversity does a good job of measuring how well evolution is exploring meaningful differences between programs that might be lost with a diversity measure that only takes into account syntactic (genotypic) diversity of the population, where two wildly different programs may actually compute the same function.
 
 \section{Experimental Design}
 
@@ -237,21 +237,24 @@ Note that in a few settings, one or two runs found solutions to the problem befo
 \subsection{Starting with high diversity}
 \label{sec:highDiversityResults}
 
-In this subsection we present sets of runs starting with populations that occured in runs using lexicase selection and achieved error diversity greater than 0.9. 
+In this subsection we use stored populations that occured in runs using lexicase selection and achieved error diversity greater than 0.9. As such, the initial populations of the runs have very high diversity, with most individuals producing distinct error vectors.
 
 \begin{figure*}
 	\includegraphics{../figures/RSWN_high_diversity}
 	\vspace{-1 cm}
-	\caption{Changes in diversity over 100 ``re-runs'' of the replace-space-with-newline problem with both lexicase and tournament selections, starting from a population with high diversity coming from a lexicase selection run.}
+	\caption{Error diversity over 100 ``continuations'' of the RSWN problem with both lexicase and tournament selections, starting from a population with high diversity naturally occuring in a run using lexicase selection.}
 	\label{fig:RSWNhighDiversity}
 \end{figure*}
 
 \begin{figure*}
 	\includegraphics{../figures/DL_high_diversity}
 	\vspace{-1 cm}
-	\caption{Changes in diversity over 100 ``re-runs'' of the double-letters problem with both lexicase and tournament selections, starting from a population with high diversity coming from a lexicase selection run.}
+	\caption{Error diversity over 100 ``continuations'' of the double-letters problem with both lexicase and tournament selections, starting from a population with high diversity naturally occuring in a run using lexicase selection.}
 	\label{fig:DLhighDiversity}
 \end{figure*}
+
+Figure~\ref{fig:RSWNhighDiversity} plots continued runs started from two populations (C and D) stored from GP evolving on the RSWN problem. 
+
 
 \subsection{Starting with low diversity}
 \label{sec:lowDiversityResults}
@@ -259,14 +262,14 @@ In this subsection we present sets of runs starting with populations that occure
 \begin{figure*}
 	\includegraphics{../figures/RSWN_low_diversity}
 	\vspace{-1 cm}
-	\caption{Changes in diversity over 100 ``re-runs'' of the replace-space-with-newline problem with both lexicase and tournament selections, starting from a population with low diversity coming from a tournament selection run.}
+	\caption{Error diversity over 100 ``continuations'' of the RSWN problem with both lexicase and tournament selections, starting from a population with low diversity  naturally occuring in a run using tournament selection.}
 	\label{fig:RSWNlowDiversity}
 \end{figure*}
 
 \begin{figure*}
 	\includegraphics{../figures/DL_low_diversity}
 	\vspace{-1 cm}
-	\caption{Changes in diversity over 100 ``re-runs'' of the double-letters problem with both lexicase and tournament selections, starting from a population with low diversity coming from a tournament selection run.}
+	\caption{Error diversity over 100 ``continuations'' of the double-letters problem with both lexicase and tournament selections, starting from a population with low diversity naturally occuring in a run using tournament selection.}
 	\label{fig:DLlowDiversity}
 \end{figure*}
 
@@ -276,16 +279,22 @@ In this subsection we present sets of runs starting with populations that occure
 \begin{figure*}
 	\includegraphics{../figures/RSWN_diversity_crash}
 	\vspace{-1 cm}
-	\caption{Changes in diversity over 100 ``re-runs'' of the replace-space-with-newline problem with both lexicase and tournament selections, starting from a population with that had lost diversity in a diversity crash in a lexicase selection run.}
+	\caption{Error diversity over 100 ``continuations'' of the RSWN problem with both lexicase and tournament selections, starting from a population that had lost diversity in a diversity crash in a lexicase selection run.}
 	\label{fig:RSWNdiversityCrash}
 \end{figure*}
 
 \begin{figure*}
 	\includegraphics{../figures/DL_diversity_crash}
 	\vspace{-1 cm}
-	\caption{Changes in diversity over 100 ``re-runs'' of the double-letters problem with both lexicase and tournament selections, starting from a population with that had lost diversity in a diversity crash in a lexicase selection run.}
+	\caption{Error diversity over 100 ``continuations'' of the double-letters problem with both lexicase and tournament selections, starting from a population that had lost diversity in a diversity crash in a lexicase selection run.}
 	\label{fig:DLdiversityCrash}
 \end{figure*}
+
+
+\section{Discussion}
+
+Why does lexicase do so much better at diversification??? Does it have to do with specialists? Probably! Does it have to do with concentrating on individual test cases or combinations thereof? Probabily!
+
 
 
 \section{Conclusions}
