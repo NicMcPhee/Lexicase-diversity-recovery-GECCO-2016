@@ -64,17 +64,17 @@ dl_drop25run21$selection <- sapply(strsplit(as.character(dl_drop25run21$method),
 # dl_drop25run21$run <- sapply(strsplit(as.character(dl_drop25run21$method), "-"), function(l) l[[2]])
 
 # These will be renamed for new population names
-div15run0$run <- "Population A"
-div15run1$run <- "Population B"
-div90run6$run <- "Population C"
-div90run10$run <- "Population D"
-drop25run0$run <- "Population E"
-drop25run8$run <- "Population F"
+div15run0$run <- "Population E"
+div15run1$run <- "Population F"
+div90run6$run <- "Population A"
+div90run10$run <- "Population B"
+drop25run0$run <- "Population I"
+drop25run8$run <- "Population J"
 
 dl_div15run0$run <- "Population G"
 dl_div15run1$run <- "Population H"
-dl_div90run0$run <- "Population I"
-dl_div90run3$run <- "Population J"
+dl_div90run0$run <- "Population C"
+dl_div90run3$run <- "Population D"
 dl_drop25run0$run <- "Population K"
 dl_drop25run21$run <- "Population L"
 

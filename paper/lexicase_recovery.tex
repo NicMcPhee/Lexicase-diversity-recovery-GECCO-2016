@@ -79,7 +79,11 @@
 \crdata{TBA}  % Allows default copyright data (0-89791-88-6/97/05) to be over-ridden - IF NEED BE.
 % --- End of Author Metadata ---
 
-\title{Parent Selection and Diversification in Genetic Programming}
+%\title{Parent Selection and Diversification in Genetic Programming}
+
+%\title{Error Diversity in Lexicase and Tournament Selection}
+
+\title{Effects of Tournament and Lexicase Selection on Error Diversity in Genetic Programming}
 
 %
 % You need the command \numberofauthors to handle the 'placement
@@ -137,27 +141,27 @@ Author Omitted\\
 %\alignauthor
 %Thomas Helmuth\\
 %       \affaddr{Computer Science}\\
-%       \affaddr{Washington and Lee U.}\\
-%       \affaddr{Lexington, Virginia, USA}\\
+%       \affaddr{Washington and Lee Univ}\\
+%       \affaddr{Lexington, Virginia}\\
 %       \email{helmutht@wlu.edu}
 %% 2nd. author
 %\alignauthor
 %Nicholas Freitag McPhee\\
-%       \affaddr{Div. of Science and Mathematics}\\
-%       \affaddr{U. of Minnesota, Morris}\\
-%       \affaddr{Morris, Minnesota, USA}\\
+%       \affaddr{Div of Sci and Math}\\
+%       \affaddr{Univ of MN, Morris}\\
+%       \affaddr{Morris, MN 56267}\\
 %       \email{mcphee@morris.umn.edu}
 %% 3rd. author
 %\alignauthor Lee Spector\\
 %       \affaddr{Cognitive Science}\\
 %       \affaddr{Hampshire College}\\
-%       \affaddr{Amherst, Massacusetts, USA}\\
+%       \affaddr{Amherst, MA}\\
 %       \email{lspector@hampshire.edu}
 %}
 
 \maketitle
 \begin{abstract}
-More things!
+In genetic programming systems, parent selection algorithms select the programs from which offspring will be produced by random variation and recombination. While most parent selection algorithms select programs on the basis of aggregate performance on multiple test cases, the lexicase selection algorithm considers each test case individually, in random order, for each parent selection event. Prior work has shown that lexicase selection can produce both more diverse populations and more solutions when applied to several hard problems. Here we examine the effects of lexicase selection, compared to those of the more traditional tournament selection algorithm, on population error diversity over generations, for two program synthesis problems, ``Replace Space with Newline'' and ``Double Words.'' We conduct experiments in which the same initial population is used to start multiple runs, each using a different random number seed. The initial populations are extracted from genetic programming runs, and fall into three categories: high diversity populations, low diversity populations, and populations that result from diversity crashes. The reported data shows that lexicase selection can maintain high error diversity and also that it can re-diversify less-diverse populations, while tournament selection consistently produces lower diversity.
 \end{abstract}
 
 %
@@ -173,48 +177,61 @@ More things!
 \section{Introduction}
 \label{sec:introduction}
 
-I bet we start here!
+Parent selection is one of the fundamental processes in genetic programming, and several different parent selection algorithms have been developed. Lexicase selection is a relative newcomer on the scene \cite{Spector:2012:GECCOcompANEW}. While most commonly-used parent selection algorithms, such as tournament selection, select programs on the basis of aggregate performance on multiple test cases, the lexicase selection algorithm considers each test case individually, in random order, for each parent selection event. Lexicase selection has been shown to produce more diverse populations and more solutions on several classes of problems, including software synthesis benchmark problems \cite{Helmuth:2015:ieeeTEC,Helmuth:2015:dissertation,Helmuth:2015:GECCO}. 
 
-Lexicase selection \cite{Spector:2012:GECCOcompANEW} is nifty, eh?
+The connection between the high diversity and high solution rates of lexicase selection has been studied previously. Previous work has shown that using lexicase selection results in higher population error diversity than tournament selection across a variety of problems \cite{Helmuth:2015:dissertation,Helmuth:2015:GPTP}. This prior work examined the diversity of entire GP runs, each starting with a different initial population and random number seed.
 
-Hyperselection provided initial motivation~\cite{Helmuth:2016:GECCO}, but later we became interested more generally in what lexicase and tournament do differently starting with the same population.
+Our work here was originally motivated by observations of lexicase selection runs following dramatic drops in diversity that result from ``hyperselection'' events, in which one or a few individuals in the population receive the majority of the parent selections in a generation \cite{Helmuth:2016:GECCO}. Anecdotally, these runs often seemed to recover diversity quickly, within a few generations following the diversity crash. Because a capability for recovering adaptive diversity is desirable, we decided to examine the dynamics of diversity  after diversity crashes more systematically, producing data from runs using lexicase selection and, for comparison, tournament selection. 
 
-[TMH: I'm not sure if we want to talk about error diversity in the Intro or somewhere else. But, the following paragraph could be moved to be the first paragraph of Experimental Design if we don't need to talk about diversity earlier]
+While the effects of selection algorithms in the wake of diversity crashes are informative, we are also interested in the broader question of the effects that these algorithms may have in other conditions. In particular, we would like to see how each method influences diversity in populations that occur naturally during evolution, whether those populations have high or low diversity.
 
-In this paper we concentrate on diversity measures related to the outputs of the programs. One such diversity measure, \textit{behavioral diversity}, has been shown to have correlation with problem-solving performance \cite{Jackson:2010:PPSN}. In behavioral diversity, the output of each program is recorded on each training case input and stored as a \textit{behavior vector}. Behavioral diversity is then the percentage of distinct behavior vectors in the population. \textit{Error diversity}, a slight variation of behavioral diversity, considers the percentage of distinct error vectors in the population where each error vector is computed by applying the error function to each output in the behavior vector. We believe error diversity does a good job of measuring how well evolution is exploring meaningful differences between programs that might be lost with a diversity measure that only takes into account syntactic (genotypic) diversity of the population, where two wildly different programs may actually compute the same function.
+In order to study these questions, we conducted sets of runs in which many subsets were initialized with the same population, and these populations were extracted from genetic programming runs. This allows us to see how different selection methods perform when started on the exact same population, and how differently runs with the same selection method behave when started on the same population but using different random number seeds.
+
+In the next section we describe the two selection algorithms that we study in detail. We then describe our experimental design, including a discussion of the diversity measure that we used (error diversity), the ways in which we extracted initialization populations, the two test problems that we used, and the parameters of our runs. We then describe the results of the runs and discuss the implications of these results.
 
 
-\section{Lexicase Selection}
 
 
+
+\section{Parent Selection}
+
+In this section we describe the two parent selection algorithms used in our experiments.
+
+\subsection{Tournament Selection}
+
+{\it General description.}
+
+{\it Maybe tournament size for tournaments in this paper given here, with pointers to papers studying multiple tournament sizes.}
+
+\subsection{Lexicase Selection}
+
+{\it The same but different description of lexicase selection.}
 
 \section{Experimental Design}
 
-Previous work has shown that using lexicase selection results in higher population error diversity than tournament selection across a variety of problems \cite{Helmuth:2015:GPTP, Helmuth:2015:ieeeTEC}. These papers examined the diversity of entire GP runs, each starting with a different initial population and random number seed.
-
-Here we examine the effcts of these parent selection methods on population error diveristy starting from specific population conditions besides a random initial population. In particular, we want to see how each method changes diversity in populations that occur naturally during an evolutionary run.
+In this paper we concentrate on diversity measures related to the outputs of the programs. One such diversity measure, \textit{behavioral diversity}, has been shown to have correlation with problem-solving performance \cite{Jackson:2010:PPSN}. In behavioral diversity, the output of each program is recorded on each training case input and stored as a \textit{behavior vector}. Behavioral diversity is then the percentage of distinct behavior vectors in the population. \textit{Error diversity}, a slight variation of behavioral diversity, considers the percentage of distinct error vectors in the population where each error vector is computed by applying the error function to each output in the behavior vector. We believe error diversity does a good job of measuring how well evolution is exploring meaningful differences between programs that might be lost with a diversity measure that only takes into account syntactic (genotypic) diversity of the population, where two wildly different programs may actually compute the same function.
 
 In order to produce the populations on which to experiment, we started GP runs and let them continue until they met certain stopping conditions; we then stored those populations and later conducted multiple trials with different random number seeds starting with those stored populations. We used three different stopping conditions in order to generate naturally occuring populations with interesting properties:
-\begin{enumerate}
-\item
-In a run using lexicase selection, we stopped if the population error diversity was greater than 0.9. This results in very diverse populations, allowing us to observe whether evolution is able to maintain such high diversity in the following generations.
+\begin{itemize}
+\item {\bf High diversity:}
+In runs using lexicase selection, we stopped if the population error diversity was greater than 0.9. This produces  diverse populations, allowing us to observe whether evolution is able to maintain such high diversity in the following generations.
 
-\item
-In a run using tournament selection, we stopped if the population error diversity was less than 0.15. These populations allow us to see if methods promote diversification starting from such undiverse populations. They also allow us to see if methods perform differently on a population produced by tournament selection versus one produced by lexicase selection.
+\item {\bf Low diversity:}
+In runs using tournament selection, we stopped if the population error diversity was less than 0.15. These populations allow us to see if methods promote diversification starting from such undiverse populations. They also allow us to see if methods perform differently on a population produced by tournament selection versus one produced by lexicase selection.
 
-\item
+\item {\bf After a diversity crash:}
 As described above, we were initially motivated here by observations of runs using lexicase selection that underwent major drops in diversity following hyperselection events, where one or a few individuals in the population received the majority of the parent selections in a generation. We had anecdotally noticed rapid diversity recovery following these events, but not examined them systematically~\cite{Helmuth:2016:GECCO}.
 
-In this condition, we stopped a run using lexicase selection when the error diversity reached a level at least 0.25 less than it had been at some point in the previous 10 generations. This allowed us to detect populations that had recently undergone large drops in diversity. We do not definitively know whether those drops are related to hyperselection events, but we expect that they are.
+In this condition, we stopped runs using lexicase selection when the error diversity reached a level at least 0.25 less than it had been at some point in the previous 10 generations. This allowed us to detect populations that had recently undergone large drops in diversity. We do not definitively know whether those drops are related to hyperselection events, but we expect that they are.
 
-\end{enumerate}
-In all three conditions, we only considered populations occuring after the first 10 generations in order to give evolution a chance to settle down after the extreme shifts that can happen at the beginning of a run.
+\end{itemize}
+In all three conditions, we only considered populations occurring after the first 10 generations in order to give evolution a chance to settle down after the extreme shifts that can happen at the beginning of a run.
 
-In each trial, we continued running GP on a stored population for 20 generations and recorded the population error diversity. For each parent selection setting (lexicase and tournament selections), we conducted 100 trials with different random number seeds from each stored population.
+In each trial, we continued running GP on a stored population for 20 generations and recorded the population error diversity. For each parent selection setting (lexicase and tournament selection), we conducted 100 trials with different random number seeds from each stored population.
 
-We conducted these tests on two problems taken from a recent program synthesis benchmark suite \cite{Helmuth:2015:GECCO}. The first problem, Replace Space With Newline (RSWN), searches for a program that takes as input a string and both prints the string after replacing all of the spaces in the input with newline characters and functionally returns the number of non-whitespace characters in the string. Previous examinations of error vector diversity on the RSWN problem indicate that lexicase selection maintains significantly higher diversity than tournament selection, which across 100 runs never achieved a median diversity higher than 0.25 \cite{Helmuth:2015:GPTP}.
+We conducted these tests on two problems taken from a recent program synthesis benchmark suite \cite{Helmuth:2015:GECCO}. The first problem, Replace Space With Newline (RSWN), requires the production of a program that takes a string as input and both prints an output string and returns a result. The printed string should be a copy of the input string with all spaces replaced by newline characters. The functionally returned result should be the number of non-whitespace characters in the input string. Previous examinations of error vector diversity on the RSWN problem indicate that lexicase selection maintains significantly higher diversity than tournament selection, which across 100 runs never achieved a median diversity higher than 0.25 \cite{Helmuth:2015:GPTP}.
 
-The second problem, Double Letters, asks for a program that takes a string as input and prints the string after doubling every alphabetic character and tripling every exclamation point. All other characters should be printed once. As with the RSWN problem, lexicase selection consistently achieves high diversity on this problem. Differently than RSWN, runs using tournament selection show slow but steady increases in diversity, though not approaching that of lexicase selection runs \cite{Helmuth:2015:GPTP}.
+The second problem, Double Letters, requires the production of a program that takes a string as input and prints the string after doubling every alphabetic character and tripling every exclamation point. All other characters should be printed once. As with the RSWN problem, lexicase selection consistently achieves high diversity on this problem. Differently than RSWN, runs using tournament selection show slow but steady increases in diversity, though not approaching that of lexicase selection runs \cite{Helmuth:2015:GPTP}.
 
 \begin{table}[t]
 \centering
@@ -234,7 +251,9 @@ maximum initial genome size & 400 \tabularnewline
 %uniform mutation rate & 0.01 \tabularnewline
 %uniform close mutation rate & 0.1 \tabularnewline
 \midrule
-\textbf{Genetic Operator} & \textbf{Prob} \tabularnewline
+\end{tabular}
+\begin{tabular}{l r}
+\textbf{Genetic Operator} & \textbf{Probability} \tabularnewline
 \midrule
 alternation & 0.2 \tabularnewline
 uniform mutation & 0.2 \tabularnewline
@@ -245,15 +264,15 @@ alternation followed by uniform mutation & 0.5 \tabularnewline
 \end{table}
 
 For our experiments we used PushGP \cite{spector:2002:GPEM, 1068292}, a stack-based genetic programming system.\footnote{Lexicase selection has also been shown to be effective in tree-based genetic programming \cite{Helmuth:2015:ieeeTEC, Krawiec:2015:GECCO:smgpWorkshop}.} PushGP supports a variety of control structures and multiple data types, making it a good choice for program synthesis tasks such as the problems we explore here.
-Except for parent selection, we used the exact same PushGP parameters in both the initial runs used to store interesting populations as well as the continuations of the stored populations. We give the most relevant parameters in Table~\ref{table:parameters}. The parameters not listed here exactly follow those used in the experiments in \cite{Helmuth:2015:dissertation}.
+Except for parent selection, we used the exact same PushGP parameters in both the initial runs used to store interesting populations as well as the continuations of the stored populations. We give the most relevant parameters in Table~\ref{table:parameters}. The parameters not listed here exactly follow those used in the experiments in \cite{Helmuth:2015:dissertation}, where the meanings of all parameters are also explained in detail.
 
-These runs use the most recent version of PushGP, in which individuals are stored as linear genomes that we translate into hierarchical Push programs prior to execution \cite{Helmuth:2015:dissertation}. These linear genomes admit a range of uniform genetic operators; we use four, listed in Table~\ref{table:parameters} with their probabilities. Alternation is a linear crossover operator modeled after the sexual portion of ULTRA \cite{Spector:2013:GPTP}. Uniform mutation may replace each instruction with 1\% probability. Uniform close mutation may add or remove parentheses from the program. Finally, the last operator runs alternation on two parents and then uniform mutation on that child to produce a new child.
+These runs use the most recent version of PushGP, in which individuals are stored as linear genomes that we translate into hierarchical Push programs prior to execution \cite{Helmuth:2015:dissertation}. These linear genomes admit a range of uniform genetic operators; we use four, listed in Table~\ref{table:parameters} with their probabilities. Alternation is a linear crossover operator modeled after the recombinative portion of ULTRA \cite{Spector:2013:GPTP}. Uniform mutation may replace each instruction with 1\% probability. Uniform close mutation may add or remove parentheses from the program.\footnote{Opening parentheses are inserted during the translation from linear Plush genomes to structured Push programs, according to the code-block requirements of instructions, while closing parentheses are inserted where indicated by epigenetic ``close'' markers attached to genes; these markers are the targets of uniform close mutation.} Finally, the last operator runs alternation on two parents and then uniform mutation on that child to produce a new child.
 
 
 \section{Results}
 \label{sec:results}
 
-Using the techniques presented in the previous section we obtained populations on which to perform continuation experiments. For each combination of the 2 problems and 3 stopping conditions we stored populations from 2 runs, for a total of 12 populations. In the following subsections we group the results based on the stopping conditions, since they produce the most similar populations. Note that we label each population with a letter; these letters have no relation to the populations themselves, and are simply used for reference.
+Using the techniques presented in the previous section we obtained populations on which to perform continuation experiments. For each combination of the two problems and three stopping conditions we stored populations from two runs, for a total of 12 populations. In the following subsections we group the results based on the stopping conditions, since they produce the most similar populations. Note that we label each population with a letter; these letters have no relation to the populations themselves, and are simply used for reference.
 
 Starting with each stored population we conducted 100 ``continuation'' GP runs with lexicase selection and 100 with tournament selection. We let each continuation go for 20 generations, and plot the population error diversity across the runs. In particular, each figure has a standard box-and-whisker plot for each generation, with the box showing the median and quartiles. The whiskers stretch to the maximum and minimum values, ignoring outliers. In each figure we also plot the error diversity of each individual run at each generation, giving another way of visualizing the spread of diversities across runs and making it easier to trace runs with outliers.
 
@@ -264,7 +283,7 @@ Note that in a few settings, one or two runs out of 100 found solutions to the p
 \subsection{Starting with high diversity}
 \label{sec:highDiversityResults}
 
-In this subsection we continue runs using stored populations evolved using lexicase selection that achieved error diversity greater than 0.9. As such, the initial populations of the runs have very high diversity, with most individuals producing distinct error vectors.
+In this subsection we examine continuations of runs initialized with stored populations that were evolved using lexicase selection, and that achieved error diversity greater than $0.9$. As such, the initial populations of the runs have very high diversity, with most individuals producing distinct error vectors.
 
 \begin{figure*}
 	\includegraphics{../figures/RSWN_high_diversity}
@@ -280,14 +299,10 @@ In this subsection we continue runs using stored populations evolved using lexic
 	\label{fig:DLhighDiversity}
 \end{figure*}
 
-Figure~\ref{fig:RSWNhighDiversity} plots the continued runs started from two populations (C and D) stored from GP evolving on the RSWN problem. Lexicase selection consistently maintains high levels of diversity starting from both populations, with little variance. On the other hand, both plots show runs using tournament selection quickly losing significant diversity within the first 5 to 10 generations of the continuation, dropping from over 90\% distinct error vectors down to around 50\% distinct error vectors. Interestingly, the tournament selection runs on Population C show large differences in diversity the last 10 generations, with some becoming even less diverse while others recovering much of the lost diversity. On the other hand, the tournament selection runs on Population D maintain much more consistent diversity, with most runs having between 40\% and 60\% diversity in the remaining generations. It is unclear to us why these two populations result in such different diversity plots for tournament selection, but we assume it has to do with the composition of the stored population.
+Figure~\ref{fig:RSWNhighDiversity} plots the continued runs started from two populations (C and D) stored from GP evolving on the RSWN problem. Lexicase selection consistently maintains high levels of diversity starting from both populations, with little variance. On the other hand, both plots show runs using tournament selection quickly losing significant diversity within the first 5 to 10 generations of the continuation, dropping from over 90\% distinct error vectors down to around 50\% distinct error vectors. Interestingly, the tournament selection runs on Population C show large differences in diversity in the last 10 generations, with some becoming even less diverse while others recover much of the lost diversity. On the other hand, the tournament selection runs on Population D maintain much more consistent diversity, with most runs having between 40\% and 60\% diversity in the remaining generations. It is unclear to us why these two populations result in such different diversity plots for tournament selection, but we assume it has to do with the composition of the stored population.
 
 Figure~\ref{fig:DLhighDiversity}, which plots the diversities of continuations of two populations (I and J) on the Double Letters problem, shows similar trends in both lexicase selection and tournament selection. Note that tournament selection maintains higher diversity on this problem than on the RSWN problem, though not as high as lexicase selection. This trend mirrors what has been previously seen on full GP runs \cite{Helmuth:2015:GPTP}.
 
-\textit{[should the next two paragraphs be in Discussion?]}
-The continuations starting from high-diversity populations clearly show that lexicase selection can maintain a high population diversity while tournament selection cannot reliably do so.
-
-One interesting observation in these plots is the occasional steep drop in diversity in a small number of runs using lexicase selection, which can be seen especially clearly in populations D and I. Based on similar runs we have encountered previously, we would guess that these runs underwent hyperselection events in which one or a small number of individuals were selected to make most of the children in a single generation. Hyperselection events can, understandably, lead to diversity crashes since most of the individuals in the population are closely related. Interestingly, previous work has shown that such events are neither a driving force or a hinderance in runs using lexicase selection \cite{Helmuth:2016:GECCO}.
 
 %Nic: Some of the individual drops in lexicase diversity are likely due to hyperselection events. Some of those then recovered, but it's not clear that all did; not sure what we say about that part.
 %Tom: I wouldn't worry about it. Some runs that don't recover are pretty outliery to me.
@@ -296,7 +311,7 @@ One interesting observation in these plots is the occasional steep drop in diver
 \subsection{Starting with low diversity}
 \label{sec:lowDiversityResults}
 
-Next, we present continuations of runs that start from populations exhibiting very low population diversity, at most 0.15. In other words, most of the individuals in these populations produced the same error vectors. These populations were stored from runs using tournament selection, since we were not able to achieve population diversity this low in a run using lexicase selection. Additionally, this will allow us to examine whether the parent selection technique used to produce the initial populations has effect on the continued diversity.
+Next, we present continuations of runs that start from populations exhibiting very low population diversity, at most 0.15. In other words, most of the individuals in these populations produced the same error vectors. These populations were stored from runs that used tournament selection, since we were not able to achieve population diversity this low in a run using lexicase selection. Additionally, this will allow us to examine whether the parent selection technique used to produce the initial populations has effect on the continued diversity.
 
 \begin{figure*}
 	\includegraphics{../figures/RSWN_low_diversity}
@@ -312,17 +327,15 @@ Next, we present continuations of runs that start from populations exhibiting ve
 	\label{fig:DLlowDiversity}
 \end{figure*}
 
-Figure~\ref{fig:RSWNlowDiversity} plots diversity of runs starting from populations A and B on the RSWN problem. Starting from both populations, tournament selection does not increase diversity across the 20 generations except for a handful of outlier runs. The continuations using lexicase selection increase the median diversity across runs rapidly, with over 50\% unique error vectors by generation 8 using population A and generation 4 using population B. For population A, lexicase selection runs continue to steadily rise in diversity over the 20 generations. On the other hand, many runs starting with population B undergo steep drops in diversity, such that by generation 9 the lower quartile of diversity falls precipitously from around 60\% to around 35\%. The indivdiually plotted run diversities show that many runs continue to see single-generation drops in diversity throughout the 20 generations. We believe this population was likely contained one or more individuals that, when varied in the right way, produce a child that dominates the rest of the population, leading to many hyperselection events and therefore drops in diversity. Even with these drops in diversity, lexicase selection maintains higher diversity than tournament selection in the majority of continuations.
+Figure~\ref{fig:RSWNlowDiversity} plots diversity of runs starting from populations A and B on the RSWN problem. Starting from both populations, tournament selection does not increase diversity across the 20 generations except for a handful of outlier runs. The continuations using lexicase selection increase the median diversity across runs rapidly, with over 50\% unique error vectors by generation 8 using population A and generation 4 using population B. For population A, lexicase selection runs continue to steadily rise in diversity over the 20 generations. On the other hand, many runs starting with population B undergo steep drops in diversity, such that by generation 9 the lower quartile of diversity falls precipitously from around 60\% to around 35\%. The indivdiually plotted run diversities show that many runs continue to see single-generation drops in diversity throughout the 20 generations. We believe this population likely contained one or more individuals that, when varied in the right way, produce a child that dominates the rest of the population, leading to many hyperselection events and therefore drops in diversity. Even with these drops in diversity, lexicase selection maintains higher diversity than tournament selection in the majority of continuations.
 
-We present continuations of low-diversity populations (G and H) evolved on the Double Letters problem in Figure~\ref{fig:DLlowDiversity}. Lexicase selection again increases error diversity more quickly than tournament selection, though here tournament selection does show some incrases in diversity. This is more pronounced when starting from population H, where median diversity is over 0.25 by generation 20. This still pales in comparison to lexicase selection's diversity growing to more than 0.6 on population H and 0.75 on population G. Both plots show lexicase selection runs gaining and maintaining diversity across the 20 generations, and not encountering any diversity falls that we observed in Figure~\ref{fig:RSWNlowDiversity}.
+We present continuations of low-diversity populations (G and H) evolved on the Double Letters problem in Figure~\ref{fig:DLlowDiversity}. Lexicase selection again increases error diversity more quickly than tournament selection, though here tournament selection does show some incrases in diversity. This is more pronounced when starting from population H, where median diversity is over 0.25 by generation 20. This still pales in comparison to lexicase selection's diversity, which grows to more than 0.6 on population H and 0.75 on population G. Both plots show lexicase selection runs gaining and maintaining diversity across the 20 generations, without any of the diversity drop-offs that we observed in Figure~\ref{fig:RSWNlowDiversity}.
 
-\textit{[should the next two paragraphs be in Discussion?]}
-Figures~\ref{fig:RSWNlowDiversity} and \ref{fig:DLlowDiversity} show how lexicase selection can diversify an underiverse population over small numbers of generations. This ability to create error diversity exhibits how lexicase selection can rapidly explore the space of meaningfully different programs.
 
 \subsection{Starting after a diversity crash}
 \label{sec:crashDiversityResults}
 
-Our work here was originally motivated by observations of runs using lexicase selection that suddenly lost significant amounts of diversity. Anecdotally, these runs often seemed to quickly recover diversity in the generations following the diversity crash. We presume that these diversity crashes were related to hyperselection events that we observed in the populations. As such, we are interested to see whether lexicase selection can reliably recover diversity following a diversity crash. The stored populations in these continuations occured after error diversity dropped at least 25\% over the preceding 10 generations when using lexicase selection.
+
 
 \begin{figure*}
 	\includegraphics{../figures/RSWN_diversity_crash}
@@ -338,39 +351,59 @@ Our work here was originally motivated by observations of runs using lexicase se
 	\label{fig:DLdiversityCrash}
 \end{figure*}
 
-We plot error diversity from populations E and F that were stored after diversity crashes on the RSWN problem in Figure~\ref{fig:RSWNdiversityCrash}. Neither of these plots shows rapid rediversification of lexicase selection runs; instead, we see consistent gains in diversity for most of each run.
+We plot error diversity from populations E and F, which were stored after diversity crashes on the RSWN problem, in Figure~\ref{fig:RSWNdiversityCrash}. 
+
+For the lexicase selection runs, neither of these plots shows rapid rediversification; instead, we see consistent gains in diversity for most of each run.
 The median diversity on population E increases about 20\% over 20 generations, gaining back most of the diversity it lost during the diversity crash. Population F gains back about 15\% population in that timespan.
-Interestingly, population E sees immediate small gains in diversity in the first few generations, where population F shows consistent small losses in diversity before rediversifying. This presumably means that population E had reached its minimum in its diversity crash, where population F was recorded near the end of the crash but before its minimum.
+Interestingly, population E sees immediate small gains in diversity in the first few generations, whereas population F shows consistent small losses in diversity before rediversifying. This presumably means that population E had reached its minimum in its diversity crash, whereas population F was recorded near the end of the crash but before its minimum.
 
-Turning our attention to tournament selection, we see that it saw remarkably consistent drops in diversity in the very first generation, especially in Population F. These drops are followed by little movement either direction during the remaining generations.
+Turning our attention to tournament selection, we see that it produced remarkably consistent drops in diversity in the very first generation, especially in Population F. These drops are followed by little movement either direction during the remaining generations.
 
-Figure~\ref{fig:DLdiversityCrash} shows the same settings for the Double Letters problem using populations K and L. Population K is interesting in that lexicase selection gains some diversity near the beginning while almost every tournament selection loses at least 25\% diversity over the first 4 generations. After that, an increasing number of lexicase selection runs seem to undergo further diversity crashes, pulling down the lower quartile and minimum while the median diversity stays around 60\%. On the other hand, tournament selection shows incrases in diversity in the later generations, though its quartiles never overlap with lexicase selection's.
+Figure~\ref{fig:DLdiversityCrash} shows the same settings for the Double Letters problem using populations K and L. Population K is interesting in that lexicase selection gains some diversity near the beginning while almost every tournament selection loses at least 25\% diversity over the first 4 generations. After that, an increasing number of lexicase selection runs seem to undergo further diversity crashes, pulling down the lower quartile and minimum while the median diversity stays around 60\%. On the other hand, tournament selection shows incrases in diversity in the later generations, although its quartiles never overlap with lexicase selection's.
 
-For population L, after a few generations of further diversity decrases, lexicase selection runs tend to increase diversity (with lots of variation) ending with about 20\% higher median diversity than at its lowest. Tournament selection, however, very consistently loses diversity over the 20 generations with little variation across runs.
-
-Of the plots we present, those in this section have the smallest gaps in diversity between lexicase selection and tournament selection. Still, they show lexicase selection's ability to increase diversity, albeit gradually, following a diversity crash. Tournament selection runs lost diversity over the 20 generations in three of the four plots, showing that it not only was not able to stop the diversity crash, but contributed to its continuation.
+For population L, after a few generations of further diversity decreases, lexicase selection runs tend to increase diversity (with lots of variation) ending with about 20\% higher median diversity than at its lowest. Tournament selection, however, consistently loses diversity over the 20 generations with little variation across runs.
 
 \section{Discussion}
 
-Our continuations of 12 populations show that lexicase selection can maintain high diversity in a population and can rediversify populations with either low diversity or recently-crashed diversity. On the other hand, tournament selection consistently achieved lower diversity, either by decreasing the number of unique error vectors in the population or by not increasing diversity in undiverse populations. Why is lexicase selection so much better at increasing and maintaining diversity than tournament selection?
 
-First, let us discuss tournament selection's drops in diversity in populations that originally evolved using lexicase selection. Suppose that a number of individuals in a population have identical or very similar error vectors, and have low total error. With tournament selection, these individuals might all be selected a number of times in a given generation, leading to a population containing many of their children. Many of those children likely have similar error vectors to their parents, resulting in a less diverse population than the prior one. With the same population, lexicase selection would require those individuals to compete for the same selections, since any individuals with identical error vectors will have equal chance of selection when their best case errors come near the beginning of the randomly shuffled test cases. So, lexicase selection makes those individuals ``compete'' for the selections it is eligible for with those individuals that produce identical error vectors.
+The results from continuations of high-diversity populations clearly show that lexicase selection can maintain a high population diversity while tournament selection cannot reliably do so. One notable feature visible in the initial-high-diversity plots (Figure~\ref{fig:RSWNhighDiversity} and Figure~\ref{fig:DLhighDiversity}) is the occasional steep drop in diversity in a small number of runs using lexicase selection, which can be seen especially clearly in populations D and I. Based on similar runs we have encountered previously, we would guess that these runs underwent hyperselection events in which one or a small number of individuals were selected to make most of the children in a single generation. Hyperselection events can, understandably, lead to diversity crashes since most of the individuals in the population are closely related. Interestingly, previous work has shown that such events are neither a driving force nor a hinderance in runs using lexicase selection \cite{Helmuth:2016:GECCO}.
 
-Another factor likely at play here is the way in which lexicase selection places emphasis on individuals that perform well on single test cases or combinations of small numbers of test cases. Since an individual must be the absolute best in the population on a test case if it comes first in the shuffled test cases in order for the individual to be selected, lexicase selection can select individuals that specialize on doing well at one or more test cases even if they do poorly at others. This phenomenon, shown to contribute to lexicase selection's success in prior work \cite{Helmuth:2015:dissertation}, likely allows lexicase to select many different specialists with different error vectors, diversifying the parent pool and therefore the children of the next generation.
+The continuations starting from low-diversity populations (Figures~\ref{fig:RSWNlowDiversity} and \ref{fig:DLlowDiversity}) show how lexicase selection can diversify an un-deriverse population over a small number of generations. This ability to create error diversity helps to explain how lexicase selection can rapidly explore the space of meaningfully different programs.
 
 
-Separate from the question of lexicase selection versus tournament selection, the results we present in each figure clearly depend not only on the problem on which the runs are evolving, but the different stored starting populations. In fact, in some figures it is evident that the starting population was the cause of later swings in diversity not manifested in the first few generations; see Figure~\ref{fig:RSWNhighDiversity} for tournament selection and Figure~\ref{fig:RSWNlowDiversity} for lexicase selection for examples. Thus the composition of a population, or specific members of a population, can drastically change the shape of diversity in the following generations even compared to similarly chosen populations. Even so, lexicase selection clearly contributes more to diversity than tournament selection starting from all twelve of the populations presented here.
+Of the results we present, those from runs starting with populations that were produced by diversity crashes (Figure~\ref{fig:RSWNdiversityCrash} and Figure~\ref{fig:DLdiversityCrash}) show the smallest gaps in diversity between lexicase selection and tournament selection. Still, they demonstrate lexicase selection's ability to increase diversity, albeit gradually, following a diversity crash. Tournament selection runs lost diversity over the 20 generations in three of the four conditions, showing not only that it was unable to stop the diversity crash, but also that it contributed to the crash's continuation.
+
+In summary, the reported data shows that lexicase selection can maintain high error diversity and also that it can re-diversify less-diverse populations, whether those populations were produced by tournament selection or by diversity crashes with lexicase selection. Tournament selection consistently produced lower diversity, either by decreasing the number of unique error vectors in the population or by failing to increase diversity in un-diverse populations. 
+
+The higher diversity seen with lexicase selection does not, for the problems and configurations examined here, come at the expense of problem-solving power---quite the contrary. In data reported elsewhere \cite{Helmuth:2015:GECCO}, lexicase selection produced solutions to the Replace Space with Newline problem in 51 out of 100 runs, while tournament selection succeeded in only 8. On the Double Letters problem, lexicase selection produced 6 solutions (in 100 runs), while tournament selection produced none.
+
+Why might lexicase selection be so much better at increasing and maintaining diversity than tournament selection?
+
+One clue might come from tournament selection's drops in diversity in populations that originally evolved using lexicase selection. Suppose that a number of individuals in a population have identical or very similar error vectors, along with low total error. With tournament selection, these individuals might all be selected a number of times in a given generation, leading to a population containing many of their children. Many of those children likely have similar error vectors to their parents, resulting in a less diverse population than the prior one. With the same population, lexicase selection would require those individuals to compete for the same selections, since any individuals with identical error vectors will have equal chance of selection when their best case errors come near the beginning of the randomly shuffled test cases. So, lexicase selection makes those individuals ``compete'' for the selections it is eligible for with those individuals that produce identical error vectors.
+
+
+
+Another factor likely at play here is the way in which lexicase selection places emphasis on individuals that perform well on single test cases or combinations of small numbers of test cases. Since an individual must be the absolute best in the population on a test case if it comes first in the shuffled test cases in order for the individual to be selected, lexicase selection can select individuals that specialize on doing well at one or more test cases even if they do poorly at others. This phenomenon, shown to contribute to lexicase selection's success in prior work \cite{Helmuth:2015:dissertation}, likely allows lexicase selection to select many different specialists with different error vectors, diversifying the parent pool and therefore the children of the next generation.
+
+The data presented here is also interesting in other respects. For example, it shows that patterns of diversification depend not only on the selection method and on the problem being solved, but also on the starting population. In fact, in some conditions it is evident that the starting population was the cause of later swings in diversity that were not manifested in the first few generations; see Figure~\ref{fig:RSWNhighDiversity} for tournament selection and Figure~\ref{fig:RSWNlowDiversity} for lexicase selection for examples. Thus the composition of a population, or specific members of a population, can drastically change the shape of diversity in the following generations, even compared to similarly chosen populations. Even so, lexicase selection clearly contributes more to diversity than tournament selection, starting from all twelve of the populations presented here.
 
 
 \section{Conclusions}
 \label{sec:conclusions}
 
-I'm hoping we have conclusions.
+Previous work showed that lexicase selection often generates and maintains high levels of diversity, but the experiments presented here demonstrate this in more detail and more systematically, in several conditions.
 
+At least for the two software synthesis benchmark problems studied here, Replace Space with Newline and Double Letters, lexicase selection not only maintains high levels of diversity across entire runs, but also reestablishes diversity in many low-diversity populations. The fact that lexicase selection also tends to solve the studied problems more frequently than does tournament selection, which produces less diverse population, strongly suggests that the diversity we are seeing is {\it adaptive} diversity that helps the system to explore the search space.
+
+The presented data also shows that there is a sense in which ``history is destiny'' with respect to diversity in genetic programming. For some pairs of initial populations that were generated from identical conditions (except for random number seeds), distinct patterns of diversity were consistently observed. The choice of selection method has a clear and characteristic effect on diversity, but the nature of the specific starting population can also have consistent, long term effects.
+
+{\it Say at least one thing about future work :-)}
 
 
 \section*{Acknowledgments}
-Lots of cool people helped us.
+Omitted for blind review.
+%% WHEN DE-ANONYMIZED, INCLUDE THIS: This material is based upon work supported by the National Science Foundation under Grants No. 1129139 and 1331283. Any opinions, findings, and conclusions or recommendations expressed in this publication are those of the authors and do not necessarily reflect the views of the National Science Foundation.
+
 
 % The following two commands are all you need in the
 % initial runs of your .tex file to
