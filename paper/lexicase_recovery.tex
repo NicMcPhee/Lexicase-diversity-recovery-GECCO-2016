@@ -172,14 +172,14 @@ In genetic programming systems, parent selection algorithms select the programs 
 % We no longer use \terms command
 %\terms{Theory}
 
-\keywords{lexicase selection, hyperselection, PushGP, other stuff}
+\keywords{diversity, lexicase selection, tournament selection, hyperselection, PushGP}
 
 \section{Introduction}
 \label{sec:introduction}
 
-Parent selection is one of the fundamental processes in genetic programming, and several different parent selection algorithms have been developed. Lexicase selection is a relative newcomer on the scene \cite{Spector:2012:GECCOcompANEW}. While most commonly-used parent selection algorithms, such as tournament selection, select programs on the basis of aggregate performance on multiple test cases, the lexicase selection algorithm considers each test case individually, in random order, for each parent selection event. Lexicase selection has been shown to produce more diverse populations and more solutions on several classes of problems, including software synthesis benchmark problems \cite{Helmuth:2015:ieeeTEC,Helmuth:2015:dissertation,Helmuth:2015:GECCO}. 
+Parent selection is one of the fundamental processes in genetic programming, and several different parent selection algorithms have been developed. Lexicase selection is a relative newcomer on the scene \cite{Spector:2012:GECCOcompANEW}. While most commonly-used parent selection algorithms, such as tournament selection, select programs on the basis of aggregate performance on multiple test cases, the lexicase selection algorithm considers each test case individually, in random order, for each parent selection event. Lexicase selection has been shown to produce more diverse populations and more solutions on several classes of problems, including software synthesis benchmark problems \cite{Helmuth:2015:ieeeTEC, Helmuth:2015:dissertation, Helmuth:2015:GECCO}. 
 
-The connection between the high diversity and high solution rates of lexicase selection has been studied previously. Previous work has shown that using lexicase selection results in higher population error diversity than tournament selection across a variety of problems \cite{Helmuth:2015:dissertation,Helmuth:2015:GPTP}. This prior work examined the diversity of entire GP runs, each starting with a different initial population and random number seed.
+The connection between the high diversity and high solution rates of lexicase selection has been studied previously. Previous work has shown that using lexicase selection results in higher population error diversity than tournament selection across a variety of problems \cite{Helmuth:2015:dissertation, Helmuth:2015:GPTP}. This prior work examined the diversity of entire GP runs, each starting with a different initial population and random number seed.
 
 Our work here was originally motivated by observations of lexicase selection runs following dramatic drops in diversity that result from ``hyperselection'' events, in which one or a few individuals in the population receive the majority of the parent selections in a generation \cite{Helmuth:2016:GECCO}. Anecdotally, these runs often seemed to recover diversity quickly, within a few generations following the diversity crash. Because a capability for recovering adaptive diversity is desirable, we decided to examine the dynamics of diversity  after diversity crashes more systematically, producing data from runs using lexicase selection and, for comparison, tournament selection. 
 
@@ -199,13 +199,20 @@ In this section we describe the two parent selection algorithms used in our expe
 
 \subsection{Tournament Selection}
 
-{\it General description.}
+We use standard tournament selection as a comparison method. In it, we choose random individuals (with replacement) to form a tournament set, and select the individual with the lowest total error to be a parent.
 
-{\it Maybe tournament size for tournaments in this paper given here, with pointers to papers studying multiple tournament sizes.}
+%{\it General description.}
+%
+%{\it Maybe tournament size for tournaments in this paper given here, with pointers to papers studying multiple tournament sizes.}
 
 \subsection{Lexicase Selection}
 
 {\it The same but different description of lexicase selection.}
+
+
+
+Lexicase selection shares some motivation with other recent techniques that take into account not how an individual does as a whole, but instead on individual parts of the problem. These ``behavior-based'' or ``semantic'' search operators include geometric semantic GP \cite{Moraglio2012}, behavioral GP \cite{Krawiec:2014:GECCO}, clustering test cases into objectives \cite{Krawiec:2015:EuroGP, Krawiec:2015:GECCO:smgpWorkshop}, and other behavior-based search drivers \cite{Krawiec:2015:GPTP}. Lexicase sets itself apart from these methods by placing importance on individual test cases and combinations of test cases---those test cases that come at the beginning of each random ordering of cases.
+
 
 \section{Experimental Design}
 
@@ -250,6 +257,7 @@ maximum initial genome size & 400 \tabularnewline
 %alignment deviation & 10 \tabularnewline
 %uniform mutation rate & 0.01 \tabularnewline
 %uniform close mutation rate & 0.1 \tabularnewline
+tournament size (for tournament selection) & 7 \tabularnewline
 \midrule
 \end{tabular}
 \begin{tabular}{l r}
@@ -397,7 +405,7 @@ At least for the two software synthesis benchmark problems studied here, Replace
 
 The presented data also shows that there is a sense in which ``history is destiny'' with respect to diversity in genetic programming. For some pairs of initial populations that were generated from identical conditions (except for random number seeds), distinct patterns of diversity were consistently observed. The choice of selection method has a clear and characteristic effect on diversity, but the nature of the specific starting population can also have consistent, long term effects.
 
-{\it Say at least one thing about future work :-)}
+It would be interesting to use the methodology in this paper to compare the diversity produced by other search drivers, such as ``discovery of objectives by clustering'' \cite{Krawiec:2015:EuroGP} and novelty search \cite{Lehman:2011:EDV:2001576.2001606}.
 
 
 \section*{Acknowledgments}
