@@ -267,7 +267,9 @@ alternation followed by uniform mutation & 0.5 \tabularnewline
 For our experiments we used PushGP \cite{spector:2002:GPEM, 1068292}, a stack-based GP system.\footnote{Lexicase selection has also been shown to be effective in tree-based GP \cite{Helmuth:2015:ieeeTEC, Krawiec:2015:GECCO:smgpWorkshop}.} PushGP supports a variety of control structures and multiple data types, making it a good choice for program synthesis tasks such as the problems we explore here.
 Except for parent selection, we used the exact same PushGP parameters in both the initial runs used to store interesting populations as well as the continuations of the stored populations. We give the most relevant parameters in Table~\ref{table:parameters}. The parameters not listed here exactly follow those described in \cite{Helmuth:2015:dissertation}, where the meanings of all parameters are also explained in detail.
 
-These runs use the most recent version of PushGP, in which individuals are stored as linear genomes that we translate into hierarchical Push programs prior to execution \cite{Helmuth:2015:dissertation}. These linear genomes admit a range of uniform genetic operators; we use four, listed in Table~\ref{table:parameters} with their probabilities. Alternation is a linear crossover operator modeled after the recombinative portion of ULTRA \cite{Spector:2013:GPTP}. Uniform mutation may replace each instruction with 1\% probability. Uniform close mutation may add or remove parentheses from the program.\footnote{Opening parentheses are inserted during the translation from linear Plush genomes to structured Push programs, according to the code-block requirements of instructions, while closing parentheses are inserted where indicated by epigenetic ``close'' markers attached to genes; these markers are the targets of uniform close mutation.} Finally, the last operator runs alternation on two parents and then uniform mutation on that child to produce a new child.
+These runs use the most recent version of PushGP, in which individuals are stored as linear genomes that we translate into hierarchical Push programs prior to execution \cite{Helmuth:2015:dissertation}. These linear genomes admit a range of uniform genetic operators; we use four, listed in Table~\ref{table:parameters} with their probabilities. Alternation is a linear crossover operator modeled after the recombinative portion of ULTRA \cite{Spector:2013:GPTP}. Uniform mutation may replace each instruction with 1\% probability. Uniform close mutation may add or remove hierarchy-delineating parentheses from the program.
+%\footnote{Opening parentheses are inserted during the translation from linear Plush genomes to structured Push programs, according to the code-block requirements of instructions, while closing parentheses are inserted where indicated by epigenetic ``close'' markers attached to genes; these markers are the targets of uniform close mutation.}
+Finally, the last operator runs alternation on two parents and then uniform mutation on that child to produce a new child.
 
 
 \section{Results}
@@ -301,6 +303,34 @@ First, we examine continuations initialized with populations that were evolved u
 	\label{fig:DLhighDiversity}
 \end{figure*}
 
+\begin{figure*}
+	\includegraphics{../figures/RSWN_low_diversity}
+	\vspace{-1 cm}
+	\caption{Error diversity over 100 continuations of the RSWN problem with both lexicase and tournament selection, starting from populations with low diversity  naturally occuring in a run using tournament selection.}
+	\label{fig:RSWNlowDiversity}
+\end{figure*}
+
+\begin{figure*}
+	\includegraphics{../figures/DL_low_diversity}
+	\vspace{-1 cm}
+	\caption{Error diversity over 100 continuations of the double-letters problem with both lexicase and tournament selection, starting from populations with low diversity naturally occuring in a run using tournament selection.}
+	\label{fig:DLlowDiversity}
+\end{figure*}
+
+\begin{figure*}
+	\includegraphics{../figures/RSWN_diversity_crash}
+	\vspace{-1 cm}
+	\caption{Error diversity over 100 continuations of the RSWN problem with both lexicase and tournament selection, starting from populations that had lost at least 25\% error diversity in a diversity crash in a lexicase selection run.}
+	\label{fig:RSWNdiversityCrash}
+\end{figure*}
+
+\begin{figure*}
+	\includegraphics{../figures/DL_diversity_crash}
+	\vspace{-1 cm}
+	\caption{Error diversity over 100 continuations of the double-letters problem with both lexicase and tournament selection, starting from populations that had lost at least 25\% error diversity in a diversity crash in a lexicase selection run.}
+	\label{fig:DLdiversityCrash}
+\end{figure*}
+
 Figure~\ref{fig:RSWNhighDiversity} plots the continued runs started from two populations (A and B) stored from GP on the RSWN problem. Lexicase selection consistently maintains high levels of diversity starting from both populations, with little variance. On the other hand, both plots show runs using tournament selection quickly losing significant diversity within the first 5 to 10 generations of the continuation, dropping from over 90\% distinct error vectors down to around 50\% distinct error vectors. Interestingly, the tournament selection runs on Population A show large differences in diversity in the last 10 generations, with some becoming even less diverse while others recover much of the lost diversity. On the other hand, the tournament selection runs on Population B maintain much more consistent diversity, with most runs having between 40\% and 60\% diversity in the remaining generations.
 %It is unclear to us why these two populations result in such different diversity plots for tournament selection, but we assume it has to do with the composition of the stored population.
 
@@ -316,20 +346,6 @@ Figure~\ref{fig:DLhighDiversity}, which plots the diversities of continuations o
 
 Next, we present continuations of runs that start from populations exhibiting very low population diversity, at most 0.15. In other words, most of the individuals in these populations produced the same error vectors. These populations were stored from runs that used tournament selection, since we were not able to achieve population diversity this low in a run using lexicase selection. Additionally, these runs will shed light on whether the parent selection technique used to produce the initial populations has effect on the continued diversity.
 
-\begin{figure*}
-	\includegraphics{../figures/RSWN_low_diversity}
-	\vspace{-1 cm}
-	\caption{Error diversity over 100 continuations of the RSWN problem with both lexicase and tournament selection, starting from populations with low diversity  naturally occuring in a run using tournament selection.}
-	\label{fig:RSWNlowDiversity}
-\end{figure*}
-
-\begin{figure*}
-	\includegraphics{../figures/DL_low_diversity}
-	\vspace{-1 cm}
-	\caption{Error diversity over 100 continuations of the double-letters problem with both lexicase and tournament selection, starting from populations with low diversity naturally occuring in a run using tournament selection.}
-	\label{fig:DLlowDiversity}
-\end{figure*}
-
 Figure~\ref{fig:RSWNlowDiversity} plots diversity of runs starting from populations E and F on the RSWN problem. Starting from both populations, tournament selection does not increase diversity across the 20 generations except for a handful of outlier runs. The continuations using lexicase selection increase the median diversity across runs rapidly, with over 50\% unique error vectors by generation 8 using population E and generation 4 using population F. For population E, lexicase selection runs continue to steadily rise in diversity over the 20 generations. On the other hand, many runs starting with population F undergo steep drops in diversity, such that by generation 9 the lower quartile of diversity falls precipitously from around 60\% to around 35\%. The indivdiually plotted run diversities show that many runs continue to see single-generation drops in diversity throughout the 20 generations. We believe this population likely contained one or more individuals that, when varied in the right way, produce a child that dominates the rest of the population, leading to hyperselection events---and therefore drops in diversity---in many runs. Even with these drops in diversity, lexicase selection maintains higher diversity than tournament selection in the majority of continuations.
 
 We present continuations of low-diversity populations (G and H) evolved on the Double Letters problem in Figure~\ref{fig:DLlowDiversity}. Lexicase selection again increases error diversity more quickly than tournament selection, though here tournament selection does show some increases in diversity. This is more pronounced when starting from population H, where median diversity is over 0.25 by generation 20. This still pales in comparison to lexicase selection's diversity, which grows to more than 0.6 on population H and 0.75 on population G. Both plots show lexicase selection runs gaining and maintaining diversity across the 20 generations, without any of the diversity drop-offs that we observed in Figure~\ref{fig:RSWNlowDiversity}.
@@ -338,21 +354,6 @@ We present continuations of low-diversity populations (G and H) evolved on the D
 \subsection{Starting after a diversity crash}
 \label{sec:crashDiversityResults}
 
-
-
-\begin{figure*}
-	\includegraphics{../figures/RSWN_diversity_crash}
-	\vspace{-1 cm}
-	\caption{Error diversity over 100 continuations of the RSWN problem with both lexicase and tournament selection, starting from populations that had lost at least 25\% error diversity in a diversity crash in a lexicase selection run.}
-	\label{fig:RSWNdiversityCrash}
-\end{figure*}
-
-\begin{figure*}
-	\includegraphics{../figures/DL_diversity_crash}
-	\vspace{-1 cm}
-	\caption{Error diversity over 100 continuations of the double-letters problem with both lexicase and tournament selection, starting from populations that had lost at least 25\% error diversity in a diversity crash in a lexicase selection run.}
-	\label{fig:DLdiversityCrash}
-\end{figure*}
 
 In Figure~\ref{fig:RSWNdiversityCrash} we plot error diversity from populations I and J on the RSWN problem, which were stored after diversity crashes of at least 25\%.
 For the lexicase selection runs, neither of these plots shows rapid rediversification; instead, we see consistent gains in diversity for most of each run.
